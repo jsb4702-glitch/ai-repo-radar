@@ -71,7 +71,22 @@ function detectLang() {
   return (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en';
 }
 
+function initTheme() {
+  const saved = localStorage.getItem('arr_theme');
+  const theme = (saved === 'light' || saved === 'dark')
+    ? saved
+    : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  setTheme(theme, false);
+}
+function setTheme(theme, persist = true) {
+  document.documentElement.dataset.theme = theme;
+  if (persist) localStorage.setItem('arr_theme', theme);
+  const btn = el('theme-toggle');
+  if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+
 async function load() {
+  initTheme();
   state.lang = detectLang();
   try {
     const res = await fetch('./data/repos.json', { cache: 'no-store' });
@@ -267,6 +282,7 @@ el('minScore').addEventListener('input', (e) => { state.minScore = +e.target.val
 el('grid').addEventListener('click', (e) => { const c = e.target.closest('.card'); if (c) openSheet(c.dataset.name); });
 el('sheet').addEventListener('click', (e) => { if (e.target.dataset.close !== undefined) closeSheet(); });
 el('lang-toggle').addEventListener('click', () => setLang(state.lang === 'ko' ? 'en' : 'ko'));
+el('theme-toggle').addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
 
 load();

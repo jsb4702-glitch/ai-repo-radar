@@ -8,9 +8,18 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
+  <!-- 화면 고정 버튼 (스크롤 무관) -->
+  <div class="fixed-tl">
+    <a id="support-kofi" class="support" href="https://ko-fi.com/seongbeomjeon" target="_blank" rel="noopener">☕ Ko-fi</a>
+    <a id="support-kakao" class="support" href="KAKAOPAY_LINK" target="_blank" rel="noopener" hidden>💛 카카오페이</a>
+  </div>
+  <div class="fixed-tr">
+    <button id="theme-toggle" class="icon-toggle" aria-label="theme">🌙</button>
+    <button id="lang-toggle" class="lang-toggle" aria-label="language"></button>
+  </div>
+
   <header class="hero">
     <div class="wrap">
-      <button id="lang-toggle" class="lang-toggle" aria-label="language"></button>
       <h1>AI Repo <span class="accent">Radar</span></h1>
       <p class="tagline" id="tagline"></p>
       <div class="meta" id="meta">…</div>
@@ -53,10 +62,6 @@
   </main>
 
   <footer class="wrap">
-    <div class="support-row">
-      <a id="support-kofi" class="support" href="https://ko-fi.com/seongbeomjeon" target="_blank" rel="noopener">☕ Ko-fi</a>
-      <a id="support-kakao" class="support" href="KAKAOPAY_LINK" target="_blank" rel="noopener" hidden>💛 카카오페이</a>
-    </div>
     <p id="footer-data"></p>
   </footer>
 
