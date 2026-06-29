@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Repo Radar — 매일 뜨는 AI 오픈소스, 실전점수로 큐레이션</title>
+  <meta name="description" content="GitHub에 매일 올라오는 AI 오픈소스를 카테고리별로 분류하고 실전투입 점수를 매겨 큐레이션합니다." />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <h1>AI Repo <span class="accent">Radar</span></h1>
+      <p class="tagline">매일 뜨는 AI 오픈소스를 카테고리로 분류하고 <b>실전투입 점수</b>로 거른다.</p>
+      <div class="meta" id="meta">불러오는 중…</div>
+    </div>
+  </header>
+
+  <nav class="controls">
+    <div class="inner">
+      <input id="search" type="search" placeholder="검색 — 이름 · 설명 · 태그" autocomplete="off" />
+      <div class="tabs" id="tabs"></div>
+      <div class="sortrow">
+        <label>정렬
+          <select id="sort">
+            <option value="prod_score">실전점수순</option>
+            <option value="star_velocity">🚀 급상승순(일평균⭐)</option>
+            <option value="stars">스타순</option>
+            <option value="created_at">🆕 신규순</option>
+            <option value="last_push">최근 업데이트순</option>
+          </select>
+        </label>
+        <label class="minscore">최소점수 <output id="minOut">0</output>
+          <input id="minScore" type="range" min="0" max="100" step="10" value="0" />
+        </label>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="trend" class="trend" hidden>
+      <div class="trend-head">
+        <span class="trend-eyebrow" id="trend-eyebrow">📡 지금 어디로 가고 있나</span>
+        <span class="trend-count" id="trend-count"></span>
+      </div>
+      <p class="trend-summary" id="trend-summary"></p>
+      <div class="trend-keywords" id="trend-keywords"></div>
+    </section>
+    <div id="grid" class="grid"></div>
+    <p id="cap-note" class="cap-note" hidden></p>
+    <div id="empty" class="empty" hidden>조건에 맞는 repo가 없다 🤷</div>
+  </main>
+
+  <footer class="wrap">
+    <p>데이터: GitHub Search API · 점수는 유지보수·라이선스·인기·문서 휴리스틱 합산 · <span id="genat"></span></p>
+  </footer>
+
+  <!-- 상세 시트 -->
+  <div id="sheet" class="sheet" hidden>
+    <div class="sheet-backdrop" data-close></div>
+    <div class="sheet-card" role="dialog" aria-modal="true">
+      <button class="sheet-close" data-close aria-label="닫기">✕</button>
+      <div id="sheet-body"></div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+name: Daily AI repo refresh
+
+# 매일 00:30 UTC 자동 수집 + 분류 → repos.json 커밋 → CF Pages 자동 재배포
+# 주의: 한국어 요약(summarize.py)·트렌드(trends.py)는 로컬 gemma(ollama) 필요 → CI 미실행.
+#       새로 들어온 repo는 summary_ko 빈 채로 영어 description 폴백 표시되며,
+#       로컬에서 summarize.py all / trends.py 돌려 push하면 채워진다.
+
+on:
+  schedule:
+    - cron: "30 0 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch + classify
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd scripts
+          python3 fetch_repos.py
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/repos.json
+          git diff --staged --quiet || git commit -m "chore: daily repo refresh"
+          git push
