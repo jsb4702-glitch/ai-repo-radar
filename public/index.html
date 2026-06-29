@@ -10,9 +10,10 @@
 <body>
   <header class="hero">
     <div class="wrap">
+      <button id="lang-toggle" class="lang-toggle" aria-label="language"></button>
       <h1>AI Repo <span class="accent">Radar</span></h1>
-      <p class="tagline">매일 뜨는 AI 오픈소스를 카테고리로 분류하고 <b>실전투입 점수</b>로 거른다.</p>
-      <div class="meta" id="meta">불러오는 중…</div>
+      <p class="tagline" id="tagline"></p>
+      <div class="meta" id="meta">…</div>
     </div>
   </header>
 
@@ -21,16 +22,16 @@
       <input id="search" type="search" placeholder="검색 — 이름 · 설명 · 태그" autocomplete="off" />
       <div class="tabs" id="tabs"></div>
       <div class="sortrow">
-        <label>정렬
+        <label><span id="sort-label">정렬</span>
           <select id="sort">
-            <option value="prod_score">실전점수순</option>
-            <option value="star_velocity">🚀 급상승순(일평균⭐)</option>
-            <option value="stars">스타순</option>
-            <option value="created_at">🆕 신규순</option>
-            <option value="last_push">최근 업데이트순</option>
+            <option value="prod_score"></option>
+            <option value="star_velocity"></option>
+            <option value="stars"></option>
+            <option value="created_at"></option>
+            <option value="last_push"></option>
           </select>
         </label>
-        <label class="minscore">최소점수 <output id="minOut">0</output>
+        <label class="minscore"><span id="minscore-label">최소점수</span> <output id="minOut">0</output>
           <input id="minScore" type="range" min="0" max="100" step="10" value="0" />
         </label>
       </div>
@@ -52,7 +53,11 @@
   </main>
 
   <footer class="wrap">
-    <p>데이터: GitHub Search API · 점수는 유지보수·라이선스·인기·문서 휴리스틱 합산 · <span id="genat"></span></p>
+    <div class="support-row">
+      <a id="support-kofi" class="support" href="https://ko-fi.com/KOFI_USERNAME" target="_blank" rel="noopener" hidden>☕ Ko-fi</a>
+      <a id="support-kakao" class="support" href="KAKAOPAY_LINK" target="_blank" rel="noopener" hidden>💛 카카오페이</a>
+    </div>
+    <p id="footer-data"></p>
   </footer>
 
   <!-- 상세 시트 -->

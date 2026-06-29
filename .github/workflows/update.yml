@@ -32,12 +32,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: cd scripts && python3 fetch_repos.py
 
-      - name: 2) Summarize new repos (OpenRouter, 일일 캡 150)
+      - name: 2) Summarize new repos (OpenRouter, 일일 캡 100)
         env:
           LLM_BACKEND: openrouter
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
-        run: cd scripts && python3 summarize.py 150
+        run: cd scripts && python3 summarize.py 100
 
       - name: 3) Trends (OpenRouter)
         env:
