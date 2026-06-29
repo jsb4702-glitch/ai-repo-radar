@@ -20,6 +20,7 @@ const I18N = {
     sheet: { category: '카테고리', language: '언어', license: '라이선스', stars: '스타', velocity: '일평균 ⭐', issues: '열린 이슈', created: '생성', push: '최근 푸시', reasons: '실전점수 근거', topics: '토픽', github: 'GitHub에서 열기 ↗', home: '홈페이지 ↗' },
     none: '(설명 없음)',
     toggle: 'EN',
+    kofi: 'Ko-fi 후원', kakao: '카카오페이 후원',
     fb: { open: '피드백', title: '피드백 보내기', sub: '버그·제안·추가했으면 하는 repo, 편하게 남겨줘.', placeholder: '내용을 적어줘…', contact: '회신받을 이메일·연락처 (선택)', send: '보내기', sending: '보내는 중…', ok: '✅ 보냈다. 고마워!', err: '❌ 전송 실패 — 잠시 후 다시', empty: '내용을 입력해줘', noKey: '아직 준비 중 (설정 필요)' },
   },
   en: {
@@ -39,6 +40,7 @@ const I18N = {
     sheet: { category: 'Category', language: 'Language', license: 'License', stars: 'Stars', velocity: '⭐/day', issues: 'Open issues', created: 'Created', push: 'Last push', reasons: 'Score basis', topics: 'Topics', github: 'Open on GitHub ↗', home: 'Homepage ↗' },
     none: '(no description)',
     toggle: '한국어',
+    kofi: 'Support (Ko-fi)', kakao: 'Donate (KakaoPay)',
     fb: { open: 'Feedback', title: 'Send feedback', sub: 'Bugs, suggestions, repos to add — anything.', placeholder: 'Your message…', contact: 'Your email/contact (optional)', send: 'Send', sending: 'Sending…', ok: '✅ Sent. Thanks!', err: '❌ Failed — try again', empty: 'Please enter a message', noKey: 'Not set up yet' },
   },
 };
@@ -122,6 +124,8 @@ function applyI18n() {
   el('minscore-label').textContent = t.minScore;
   el('lang-toggle').textContent = t.toggle;
   el('empty').textContent = t.empty;
+  el('kofi-label').textContent = t.kofi;
+  el('kakao-label').textContent = t.kakao;
   el('fb-open-label').textContent = t.fb.open;
   el('fb-title').textContent = t.fb.title;
   el('fb-sub').textContent = t.fb.sub;
