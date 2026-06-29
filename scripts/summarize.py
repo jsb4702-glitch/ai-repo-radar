@@ -55,7 +55,7 @@ def main():
     todo = [r for r in repos if not r.get("summary_ko")]
     if arg != "all":
         todo = todo[:int(arg)]  # repos는 prod_score 내림차순 → 상위부터
-    print(f"요약 대상 {len(todo)}개 (모델 {MODEL})")
+    print(f"요약 대상 {len(todo)}개 (백엔드 {llm.BACKEND})")
     for i, r in enumerate(todo, 1):
         try:
             s = summarize(r)
