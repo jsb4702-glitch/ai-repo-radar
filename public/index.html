@@ -11,7 +11,8 @@
   <!-- 화면 고정 버튼 (스크롤 무관) -->
   <div class="fixed-tl">
     <a id="support-kofi" class="support" href="https://ko-fi.com/seongbeomjeon" target="_blank" rel="noopener">☕ Ko-fi</a>
-    <a id="support-kakao" class="support" href="KAKAOPAY_LINK" target="_blank" rel="noopener" hidden>💛 카카오페이</a>
+    <a id="support-kakao" class="support" href="https://qr.kakaopay.com/FGKOsdpub" target="_blank" rel="noopener">💛 카카오페이</a>
+    <button id="fb-open" class="support" type="button">💬 <span id="fb-open-label">피드백</span></button>
   </div>
   <div class="fixed-tr">
     <button id="theme-toggle" class="icon-toggle" aria-label="theme">🌙</button>
@@ -71,6 +72,21 @@
     <div class="sheet-card" role="dialog" aria-modal="true">
       <button class="sheet-close" data-close aria-label="닫기">✕</button>
       <div id="sheet-body"></div>
+    </div>
+  </div>
+
+  <!-- 피드백 모달 -->
+  <div id="fb" class="fb" hidden>
+    <div class="fb-backdrop" data-fbclose></div>
+    <div class="fb-card" role="dialog" aria-modal="true">
+      <button class="fb-close" data-fbclose aria-label="close">✕</button>
+      <h2 id="fb-title"></h2>
+      <p id="fb-sub"></p>
+      <textarea id="fb-msg" rows="5"></textarea>
+      <input id="fb-contact" type="text" autocomplete="off" />
+      <input id="fb-bot" type="checkbox" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
+      <button id="fb-send" class="btn btn-1" type="button"></button>
+      <div id="fb-status" class="fb-status"></div>
     </div>
   </div>
 

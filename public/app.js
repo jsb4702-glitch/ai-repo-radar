@@ -1,4 +1,6 @@
-// AI Repo Radar — 클라이언트 렌더 + KO/EN i18n + 필터/검색/정렬 + 상세 시트.
+// AI Repo Radar — 클라이언트 렌더 + KO/EN i18n + 필터/검색/정렬 + 상세 시트 + 피드백.
+
+const WEB3FORMS_KEY = '80d86c46-c769-4d58-ac9d-e046af5c2925'; // web3forms (공개 키 — 발송 전용, 읽기 불가)
 
 const I18N = {
   ko: {
@@ -18,6 +20,7 @@ const I18N = {
     sheet: { category: '카테고리', language: '언어', license: '라이선스', stars: '스타', velocity: '일평균 ⭐', issues: '열린 이슈', created: '생성', push: '최근 푸시', reasons: '실전점수 근거', topics: '토픽', github: 'GitHub에서 열기 ↗', home: '홈페이지 ↗' },
     none: '(설명 없음)',
     toggle: 'EN',
+    fb: { open: '피드백', title: '피드백 보내기', sub: '버그·제안·추가했으면 하는 repo, 편하게 남겨줘.', placeholder: '내용을 적어줘…', contact: '회신받을 이메일·연락처 (선택)', send: '보내기', sending: '보내는 중…', ok: '✅ 보냈다. 고마워!', err: '❌ 전송 실패 — 잠시 후 다시', empty: '내용을 입력해줘', noKey: '아직 준비 중 (설정 필요)' },
   },
   en: {
     tagline: 'Daily-trending AI open source, sorted by category and filtered by a <b>production-readiness score</b>.',
@@ -36,6 +39,7 @@ const I18N = {
     sheet: { category: 'Category', language: 'Language', license: 'License', stars: 'Stars', velocity: '⭐/day', issues: 'Open issues', created: 'Created', push: 'Last push', reasons: 'Score basis', topics: 'Topics', github: 'Open on GitHub ↗', home: 'Homepage ↗' },
     none: '(no description)',
     toggle: '한국어',
+    fb: { open: 'Feedback', title: 'Send feedback', sub: 'Bugs, suggestions, repos to add — anything.', placeholder: 'Your message…', contact: 'Your email/contact (optional)', send: 'Send', sending: 'Sending…', ok: '✅ Sent. Thanks!', err: '❌ Failed — try again', empty: 'Please enter a message', noKey: 'Not set up yet' },
   },
 };
 
@@ -118,6 +122,12 @@ function applyI18n() {
   el('minscore-label').textContent = t.minScore;
   el('lang-toggle').textContent = t.toggle;
   el('empty').textContent = t.empty;
+  el('fb-open-label').textContent = t.fb.open;
+  el('fb-title').textContent = t.fb.title;
+  el('fb-sub').textContent = t.fb.sub;
+  el('fb-msg').placeholder = t.fb.placeholder;
+  el('fb-contact').placeholder = t.fb.contact;
+  el('fb-send').textContent = t.fb.send;
   el('meta').textContent = t.meta(state.repos.length, countCategories().length);
   el('footer-data').innerHTML = `${t.footer} · <span id="genat"></span>`;
   if (state.generatedAt) el('genat').textContent = t.updated(new Date(state.generatedAt).toLocaleString(state.lang === 'ko' ? 'ko-KR' : 'en-US'));
@@ -266,6 +276,49 @@ function openFromHash() {
   }
 }
 
+// ---- 피드백 모달 ----
+function openFb() {
+  const f = el('fb'); f.hidden = false;
+  requestAnimationFrame(() => f.classList.add('open'));
+  document.body.style.overflow = 'hidden';
+  el('fb-status').textContent = '';
+  setTimeout(() => el('fb-msg').focus(), 50);
+}
+function closeFb() {
+  const f = el('fb'); f.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => (f.hidden = true), 220);
+}
+async function sendFeedback() {
+  const t = T(), msg = el('fb-msg').value.trim();
+  const status = el('fb-status');
+  if (!msg) { status.textContent = t.fb.empty; return; }
+  if (!WEB3FORMS_KEY || WEB3FORMS_KEY === 'WEB3FORMS_KEY') { status.textContent = t.fb.noKey; return; }
+  if (el('fb-bot').checked) return; // honeypot
+  status.textContent = t.fb.sending;
+  el('fb-send').disabled = true;
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: 'AI Repo Radar 피드백',
+        from_name: 'AI Repo Radar',
+        message: msg,
+        contact: el('fb-contact').value.trim() || '(미기재)',
+        lang: state.lang,
+      }),
+    });
+    const j = await res.json();
+    if (j.success) {
+      status.textContent = t.fb.ok;
+      el('fb-msg').value = ''; el('fb-contact').value = '';
+      setTimeout(closeFb, 1400);
+    } else status.textContent = t.fb.err;
+  } catch (e) { status.textContent = t.fb.err; }
+  el('fb-send').disabled = false;
+}
+
 function fmt(n) { return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n ?? 0); }
 const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const escapeAttr = escapeHtml;
@@ -283,6 +336,9 @@ el('grid').addEventListener('click', (e) => { const c = e.target.closest('.card'
 el('sheet').addEventListener('click', (e) => { if (e.target.dataset.close !== undefined) closeSheet(); });
 el('lang-toggle').addEventListener('click', () => setLang(state.lang === 'ko' ? 'en' : 'ko'));
 el('theme-toggle').addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+el('fb-open').addEventListener('click', openFb);
+el('fb-send').addEventListener('click', sendFeedback);
+el('fb').addEventListener('click', (e) => { if (e.target.dataset.fbclose !== undefined) closeFb(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeSheet(); closeFb(); } });
 
 load();

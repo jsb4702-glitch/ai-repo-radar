@@ -297,11 +297,38 @@ footer { color: var(--text-3); font-size: 13px; padding: 28px 22px 56px; text-al
   padding: 7px 14px;
   background: var(--surface); border: 1px solid var(--border);
   border-radius: 980px; color: var(--text); text-decoration: none;
-  font-size: 13px; font-weight: 600; letter-spacing: -0.01em;
+  font-family: var(--font); font-size: 13px; font-weight: 600; letter-spacing: -0.01em; cursor: pointer;
   transition: border-color .15s, color .15s, background .15s;
 }
 .support:hover { border-color: var(--accent); color: var(--accent); }
 .support[hidden] { display: none; }
+
+/* ---- 피드백 모달 ---- */
+.fb { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.fb[hidden] { display: none; }
+.fb-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.32); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); opacity: 0; transition: opacity .22s; }
+.fb.open .fb-backdrop { opacity: 1; }
+.fb-card {
+  position: relative; background: var(--surface); border-radius: 22px;
+  max-width: 460px; width: 100%; padding: 30px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.3);
+  transform: translateY(16px) scale(.97); opacity: 0;
+  transition: transform .26s cubic-bezier(.2,.8,.2,1), opacity .26s;
+}
+.fb.open .fb-card { transform: translateY(0) scale(1); opacity: 1; }
+.fb-close { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--bg-2); color: var(--text-2); font-size: 14px; cursor: pointer; }
+.fb-close:hover { background: var(--border); }
+.fb-card h2 { margin: 0 0 6px; font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+.fb-card p { margin: 0 0 16px; color: var(--text-2); font-size: 14px; letter-spacing: -0.01em; }
+.fb-card textarea, .fb-card input[type="text"] {
+  width: 100%; box-sizing: border-box; font-family: var(--font); font-size: 15px;
+  background: var(--bg-2); border: 1px solid var(--border-light); border-radius: 12px;
+  color: var(--text); padding: 12px 14px; margin-bottom: 12px; resize: vertical;
+}
+.fb-card textarea:focus, .fb-card input[type="text"]:focus { outline: none; border-color: var(--accent); }
+.fb-card .btn-1 { width: 100%; justify-content: center; border: none; cursor: pointer; }
+.fb-card .btn-1:disabled { opacity: .6; cursor: default; }
+.fb-status { margin-top: 12px; text-align: center; font-size: 14px; color: var(--text-2); min-height: 18px; }
 
 @media (max-width: 560px) {
   .hero { padding: 56px 0 36px; }
