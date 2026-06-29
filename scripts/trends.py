@@ -9,11 +9,10 @@
 """
 import json
 import os
-import urllib.request
 from collections import Counter
 
-MODEL = "gemma4:latest"
-OLLAMA = "http://localhost:11434/api/generate"
+import llm  # 백엔드 스위치(ollama↔openrouter)
+
 REPOS = os.path.join(os.path.dirname(__file__), "..", "public", "data", "repos.json")
 OUT = os.path.join(os.path.dirname(__file__), "..", "public", "data", "trends.json")
 TOP_N = 12  # 카테고리당 대표 repo 수
@@ -25,12 +24,8 @@ STOP = {"ai", "llm", "machine-learning", "deep-learning", "python", "artificial-
 
 
 def gen(prompt):
-    body = json.dumps({"model": MODEL, "prompt": prompt, "stream": False, "think": False,
-                       "options": {"temperature": 0.3, "num_predict": 220}}).encode()
-    req = urllib.request.Request(OLLAMA, data=body, headers={"Content-Type": "application/json"})
     for _ in range(3):
-        with urllib.request.urlopen(req, timeout=180) as r:
-            out = json.loads(r.read())["response"].strip()
+        out = llm.complete(prompt, max_tokens=240, temperature=0.3)
         if out:
             return " ".join(out.split())
     return None

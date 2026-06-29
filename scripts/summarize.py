@@ -11,10 +11,9 @@
 import json
 import os
 import sys
-import urllib.request
 
-MODEL = "gemma4:latest"
-OLLAMA = "http://localhost:11434/api/generate"
+import llm  # 백엔드 스위치(ollama↔openrouter)
+
 PATH = os.path.join(os.path.dirname(__file__), "..", "public", "data", "repos.json")
 
 PROMPT = """너는 AI 오픈소스를 한국어로 한 줄 요약하는 큐레이터다.
@@ -37,16 +36,10 @@ def summarize(repo, retries=3):
         desc=(repo.get("description") or "(설명 없음)")[:400],
         topics=", ".join((repo.get("topics") or [])[:10]) or "(없음)",
     )
-    body = json.dumps({
-        "model": MODEL, "prompt": prompt, "stream": False, "think": False,
-        "options": {"temperature": 0.2, "num_predict": 80},
-    }).encode("utf-8")
     for attempt in range(retries):
-        req = urllib.request.Request(OLLAMA, data=body, headers={"Content-Type": "application/json"})
-        with urllib.request.urlopen(req, timeout=120) as r:
-            out = json.loads(r.read())["response"].strip()
+        out = llm.complete(prompt, max_tokens=120, temperature=0.2)
         lines = [ln for ln in out.splitlines() if ln.strip()]
-        if lines:  # 비어있으면(일시적 로드 레이스) 재시도
+        if lines:  # 비어있으면(일시적 로드 레이스/429) 재시도
             out = lines[0].strip().strip('"').strip("'").strip()
             for pre in ("한국어 요약:", "요약:", "- "):
                 if out.startswith(pre):
