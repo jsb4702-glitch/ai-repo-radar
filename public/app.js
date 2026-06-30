@@ -334,6 +334,17 @@ function setLang(lang) {
 
 let searchTimer;
 el('search').addEventListener('input', (e) => { state.query = e.target.value; clearTimeout(searchTimer); searchTimer = setTimeout(() => { renderTrend(); render(false); }, 120); });
+// Enter: 즉시 검색 + 키보드 내려서 결과 보이게(모바일) + 결과로 스크롤
+el('search').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    clearTimeout(searchTimer);
+    state.query = e.target.value;
+    renderTrend(); render(false);
+    e.target.blur();
+    document.getElementById('grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+});
 el('sort').addEventListener('change', (e) => { state.sort = e.target.value; render(true); });
 el('minScore').addEventListener('input', (e) => { state.minScore = +e.target.value; el('minOut').textContent = e.target.value; render(false); });
 el('grid').addEventListener('click', (e) => { const c = e.target.closest('.card'); if (c) openSheet(c.dataset.name); });
