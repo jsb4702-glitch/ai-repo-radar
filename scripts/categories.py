@@ -7,6 +7,22 @@
 
 # (카테고리, topics 집합, 키워드 집합) — 위일수록 우선
 CATEGORIES = [
+    # AI/에이전트 보안 — 악성 스킬·플러그인·MCP 공급망 공격, 프롬프트 인젝션,
+    # 모델 탈취/포이즈닝, LLM 레드팀·취약점 스캔, 가드레일. 최상위 우선순위:
+    # 보안 전용 repo는 generic(MCP·Agent·Eval)보다 먼저 잡아 한곳에 모은다.
+    ("Security", {
+        "ai-security", "llm-security", "ml-security", "model-security", "ai-safety",
+        "prompt-injection", "jailbreak", "llm-jailbreak", "llm-guardrails", "guardrails",
+        "red-teaming", "ai-red-teaming", "llm-red-teaming", "red-team",
+        "adversarial-attacks", "adversarial-machine-learning", "adversarial-examples",
+        "adversarial-ml", "supply-chain-security", "mcp-security", "agent-security",
+        "llm-vulnerability", "vulnerability-scanner", "ai-red-team", "model-poisoning",
+    }, {
+        "ai security", "llm security", "prompt injection", "jailbreak", "red teaming",
+        "red-teaming", "adversarial attack", "supply chain", "vulnerability scanner",
+        "agent security", "model security", "guardrail", "ai safety", "data exfiltration",
+        "model poisoning", "secure your llm", "secure your ai", "malicious model",
+    }),
     ("MCP", {
         "mcp", "mcp-server", "mcp-servers", "model-context-protocol", "mcp-client",
     }, {
@@ -180,4 +196,7 @@ SEED_TOPICS = [
     "mlops", "model-serving", "llm-evaluation", "quantization",
     "mcp", "mcp-server", "web-scraping", "browser-automation", "prompt-engineering",
     "machine-learning", "deep-learning", "generative-ai",
+    # AI 보안 시드 — 신규 보안 repo 수집용
+    "ai-security", "llm-security", "prompt-injection", "ai-red-teaming",
+    "adversarial-machine-learning", "supply-chain-security", "mcp-security", "ai-safety",
 ]
