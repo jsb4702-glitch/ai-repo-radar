@@ -215,7 +215,7 @@ function render(animate) {
 
 function renderTrend() {
   const box = el('trend');
-  if (!state.trends) { box.hidden = true; return; }
+  if (!state.trends || state.query.trim()) { box.hidden = true; return; } // 검색 중엔 숨김
   const t = T();
   let summary, count, eyebrow, keywords = [];
   if (state.category === 'All') {
@@ -333,7 +333,7 @@ function setLang(lang) {
 }
 
 let searchTimer;
-el('search').addEventListener('input', (e) => { state.query = e.target.value; clearTimeout(searchTimer); searchTimer = setTimeout(() => render(false), 120); });
+el('search').addEventListener('input', (e) => { state.query = e.target.value; clearTimeout(searchTimer); searchTimer = setTimeout(() => { renderTrend(); render(false); }, 120); });
 el('sort').addEventListener('change', (e) => { state.sort = e.target.value; render(true); });
 el('minScore').addEventListener('input', (e) => { state.minScore = +e.target.value; el('minOut').textContent = e.target.value; render(false); });
 el('grid').addEventListener('click', (e) => { const c = e.target.closest('.card'); if (c) openSheet(c.dataset.name); });
