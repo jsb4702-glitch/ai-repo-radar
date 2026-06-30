@@ -3,8 +3,8 @@
   "categories": {
     "MCP": {
       "count": 686,
-      "summary": "AI 에이전트의 기능을 터미널이나 다양한 플랫폼에서 직접 활용하고 통합하려는 경향이 두드러지며, 이를 뒷받침하기 위해 시스템 최적화나 외부 도구 연동을 위한 인프라 구축에 초점이 맞춰지고 있다. 또한, 단순한 모델 사용을 넘어 에이전트 간의 군집 배포나 복잡한 데이터 수집 및 관측 가능성을 확보하는 방향으로 발전하고 있다.",
-      "summary_en": "The area is trending towards building sophisticated AI agents and systems capable of interacting with various platforms, such as through command-line interfaces or cross-platform desktop applications. Key themes include enhancing agent capabilities via specialized memory management, tool integration, and optimizing inputs for large language models. Furthermore, there is a focus on comprehensive observability across the entire technology stack, alongside advanced data gathering like web scraping and trend monitoring.",
+      "summary": "AI 에이전트의 성능 최적화와 메모리 시스템, 데이터 압축 및 코드 문서 제공을 통해 LLM의 효율성을 높이려는 시도가 나타나고 있습니다. 또한, 다양한 모델 통합 비서, 터미널 기반 에이전트, 지능형 에이전트 군집 배포 등 실질적인 구현체와 이를 지원하는 MCP 서버 생태계가 확장되는 추세입니다. 더불어 웹 스크래핑, 시스템 관측, 트렌드 분석 등 특정 목적의 AI 도구들이 결합되어 활용되고 있습니다.",
+      "summary_en": "The area is focusing on the development of AI agents and meta-frameworks for agent swarm deployment, supported by specialized tools for memory systems, context compression, and adaptive web scraping. There is a clear trend toward integrating these capabilities into cross-platform assistants, CLI tools, and monitoring systems for observability and trend analysis. Additionally, the ecosystem is expanding through the curation of MCP servers and the provision of optimized documentation for AI code editors.",
       "keywords": [
         "mcp",
         "mcp-server",
@@ -23,8 +23,8 @@
     },
     "Agent": {
       "count": 593,
-      "summary": "에이전트 개발은 범용적인 플랫폼 제공과 함께, 장기적인 작업 수행 및 세션 간 맥락 유지 기능에 중점을 두고 발전하고 있습니다. 또한, RAG와 같은 핵심 기술을 에이전트 워크플로우에 통합하여 실제 애플리케이션으로 구현하는 방향성이 뚜렷하게 나타나고 있습니다.",
-      "summary_en": "The area is trending towards providing comprehensive platforms and frameworks for building, deploying, and managing complex AI agents and workflows. A key focus involves enhancing agent capabilities through persistent memory mechanisms and integrating advanced Retrieval-Augmented Generation (RAG) techniques. Furthermore, there is a visible effort to lower the barrier to entry by offering beginner resources alongside tools enabling local and multi-format application development.",
+      "summary": "AI 에이전트 분야는 단순한 구축을 넘어 워크플로우 설계, 로컬 환경 구현, RAG 결합 등 개발 및 배포를 위한 프레임워크와 도구 중심으로 확장되고 있습니다. 특히 세션 기록을 통한 맥락 유지, 장시간 작업 지원, 특정 페르소나 부여 등 에이전트의 기능적 고도화와 효율적인 학습 및 구현 방법론이 함께 강조되는 추세입니다.",
+      "summary_en": "The area is shifting toward providing comprehensive frameworks and tools for building, deploying, and learning how to implement AI agents. There is a clear focus on integrating agents with RAG, managing long-term memory and session context, and supporting specialized tasks such as coding and design.",
       "keywords": [
         "ai-agents",
         "claude-code",
@@ -43,8 +43,8 @@
     },
     "Vision": {
       "count": 463,
-      "summary": "최근 Vision 분야는 노드 기반의 모듈화된 인터페이스를 통해 복잡한 워크플로우 구축이 용이해지고 있으며, YOLO와 같은 경량화된 아키텍처를 활용하여 다양한 플랫폼에서의 실시간 객체 탐지 및 처리가 강화되는 추세입니다. 또한, 단순 이미지 처리뿐만 아니라 문서 관리 시스템이나 스트리밍 미디어 분석 등 실제 응용 분야에 특화된 통합 솔루션으로 발전하고 있습니다.",
-      "summary_en": "The field is moving towards highly modular and accessible tooling, evidenced by node-based GUIs and comprehensive open-source libraries for core tasks like image processing and object detection. There is a strong emphasis on practical, real-time applications, including edge device deployment, video stream analysis, and document digitization. Furthermore, the ecosystem supports both foundational learning resources and advanced generative capabilities across different media types.",
+      "summary": "전통적인 이미지 처리와 OCR, 객체 탐지 및 얼굴 인식과 같은 분석 기술이 여전히 핵심적인 역할을 하고 있습니다. 동시에 확산 모델 기반의 생성형 AI와 이를 효율적으로 운용하기 위한 모듈화된 인터페이스 및 라이브러리가 부상하고 있습니다. 또한 실시간 스트리밍 분석과 문서 관리 시스템 등 실제 서비스에 적용 가능한 실용적인 솔루션으로 확장되는 추세입니다.",
+      "summary_en": "The vision area is focusing on a mix of foundational image processing and OCR tools alongside advanced real-time object detection and face recognition. There is a clear shift toward generative AI through diffusion models and the development of modular, cross-platform interfaces for deploying these machine learning solutions.",
       "keywords": [
         "computer-vision",
         "stable-diffusion",
@@ -63,8 +63,8 @@
     },
     "Robotics": {
       "count": 322,
-      "summary": "로보틱스 분야는 실제 차량 주행부터 무인 시스템 제어에 이르기까지 다양한 물리적 플랫폼을 포괄하며, 이를 뒷받침하는 강력한 시뮬레이션 환경과 물리 엔진의 중요성이 커지고 있다. 또한, 복잡한 로봇 행동 학습에는 강화 학습 라이브러리와 공간 인공지능 기반의 컴퓨터 비전 기술이 핵심적으로 활용되고 있음을 알 수 있다. 전반적으로는 실제 하드웨어와 가상 환경을 연결하고 사용자 친화적인 인터페이스를 구축하는 방향으로 발전하고 있다.",
-      "summary_en": "The field is heavily focused on advanced simulation environments, utilizing tools for physics modeling and comprehensive robotics training. Key directions include developing sophisticated control systems for autonomous navigation across various platforms, from vehicles to aerial and ground robots. Furthermore, there is a strong emphasis on integrating machine learning techniques, particularly reinforcement learning, within these simulated and real-world operational frameworks.",
+      "summary": "물리 엔진과 시뮬레이터, 강화 학습 프레임워크를 통해 로봇 학습과 연구를 위한 가상 환경 구축이 활발하게 이루어지고 있습니다. 동시에 자율주행, 비행 제어, 탐사 로버 등 실제 무인 시스템의 제어와 컴퓨터 비전, SLAM 평가와 같은 정밀한 공간 인공지능 기술이 함께 발전하고 있습니다.",
+      "summary_en": "The robotics area is focusing on the development of physics-based simulation environments and integrated frameworks for robot learning and autonomous driving research. There is a strong emphasis on integrating reinforcement learning, computer vision, and SLAM evaluation to enhance the control of unmanned systems and multi-joint dynamics.",
       "keywords": [
         "robotics",
         "ros2",
@@ -83,8 +83,8 @@
     },
     "Code-AI": {
       "count": 243,
-      "summary": "Code-AI 분야는 단순한 코드 생성을 넘어, 시스템 프롬프트 관리나 에이전트 기반의 자동화된 개발 작업 수행에 초점을 맞추고 있습니다. 또한, 데이터 앱이나 복잡한 서비스 구축을 위해 UI/UX 빌딩 지원, 반응형 노트북 환경 제공 등 실제 배포 가능한 결과물 제작 과정 전반으로 확장하는 경향을 보입니다.",
-      "summary_en": "The area is trending towards integrating AI capabilities directly into development workflows, evidenced by tools for system prompting, automated code correction agents, and specialized skills for UI/UX building. There is a strong focus on creating functional applications quickly, utilizing frameworks for data apps, microservices, and interactive notebooks that incorporate AI logic. Furthermore, efforts are emerging to optimize the use of LLMs during development execution and provide comprehensive client-side interfaces for interacting with various AI models.",
+      "summary": "단순한 코드 생성을 넘어 깃허브 이슈 자동 수정 에이전트, 영상 제작 스튜디오, UI/UX 디자인 지능 등 특정 목적을 수행하는 전문적인 AI 에이전트와 스킬 중심으로 확장되고 있습니다. 동시에 시스템 프롬프트 최적화, 토큰 사용량 절감, 데이터 기반 웹 앱의 신속한 구현 및 배포를 돕는 효율적인 개발 도구와 프레임워크가 함께 부상하고 있습니다.",
+      "summary_en": "The area is shifting toward autonomous AI agents capable of automatic issue resolution and specialized skill plugins for coding assistants. There is a strong focus on streamlining the development lifecycle through spec-based tools, responsive notebooks, and frameworks that rapidly convert AI algorithms and data into web applications. Additionally, efforts are being made to optimize resource usage via token-reducing proxies and to centralize access to various AI models and system prompts.",
       "keywords": [
         "code-generation",
         "copilot",
@@ -103,8 +103,8 @@
     },
     "RAG": {
       "count": 215,
-      "summary": "RAG 구현은 단순한 문서 검색을 넘어, OCR이나 PDF 파싱 같은 전처리 과정을 거쳐 구조화된 데이터로 변환하고 이를 벡터 DB에 저장하는 방향으로 발전하고 있다. 또한, 단순히 텍스트를 연결하는 것을 넘어 지식 그래프(Knowledge Graph)와 같은 복잡한 관계형 구조를 활용하거나, 에이전트 기반의 자동화 및 개인 비서 기능과 결합하여 응용 범위를 넓히고 있다.",
-      "summary_en": "The RAG area is moving towards more structured and advanced knowledge integration, evidenced by tools that convert documents into queryable knowledge graphs or utilize specialized data loaders for complex formats like PDFs. There is a clear focus on building robust, scalable infrastructure through high-performance vector databases to support retrieval. Furthermore, the trend points toward developing autonomous, agent-based systems capable of acting as personal assistants across various platforms using retrieved information.",
+      "summary": "단순한 텍스트 검색을 넘어 PDF와 이미지 등 다양한 문서의 구조화된 파싱과 벡터 데이터베이스를 활용한 고성능 검색 체계가 구축되고 있습니다. 특히 지식 그래프를 결합한 그래프 기반 RAG와 에이전트 기반의 지능형 챗봇 및 개인용 비서 형태로 서비스가 구체화되는 추세입니다.",
+      "summary_en": "The area is moving toward integrating structured data through OCR and knowledge graphs to enhance retrieval capabilities. There is a strong focus on scalable vector databases and the development of specialized tools for PDF parsing, personal AI assistants, and agent-based chatbot platforms.",
       "keywords": [
         "rag",
         "retrieval-augmented-generation",
@@ -123,8 +123,8 @@
     },
     "LLM": {
       "count": 191,
-      "summary": "LLM 기술은 다양한 환경에서 구동 가능하도록 경량화 및 범용 배포 엔진 개발에 집중하고 있으며, 이를 통해 로컬이나 웹 브라우저 등 접근성을 높이는 방향으로 발전하고 있다. 또한, 단순한 모델 사용을 넘어 에이전트 프레임워크를 활용하여 금융 거래와 같은 복잡한 자동화 작업에 통합하는 추세가 두드러진다. 전반적으로는 개발된 LLM 기능을 실제 애플리케이션에 쉽게 통합하거나 개인화된 경험으로 확장하려는 시도가 활발하다.",
-      "summary_en": "The focus is shifting towards making LLMs highly accessible and runnable across various environments, including local machines and web browsers. A significant theme involves building complex systems using multi-agent frameworks for specialized tasks like finance, while also providing tools to integrate these models into applications. Furthermore, there is an emphasis on structuring interactions through defined formats and developing agentic capabilities beyond simple chat interfaces.",
+      "summary": "LLM의 효율적인 구동과 배포를 위한 엔진 및 통합 도구의 개발이 활발하며, 웹 브라우저 실행이나 하드웨어 호환성 확인 등 접근성 확대가 이루어지고 있습니다. 또한, 다중 에이전트 프레임워크, 개인 맞춤형 아바타, 구조화된 프롬프트 형식 등 LLM을 구체적인 애플리케이션과 서비스로 구현하려는 시도가 나타나고 있습니다.",
+      "summary_en": "The trend is shifting toward simplifying the deployment and integration of LLMs across diverse environments, including web browsers and various hardware. There is a growing focus on specialized applications such as multi-agent frameworks for trading, personalized AI avatars, and structured prompt formats. Additionally, efforts are being made to enhance model accessibility through automated uncensoring and comprehensive research guides.",
       "keywords": [
         "large-language-models",
         "generative-ai",
@@ -143,8 +143,8 @@
     },
     "NLP": {
       "count": 190,
-      "summary": "최근 NLP 분야는 개별 기능 구현을 넘어, 여러 에이전트가 협력하는 시스템 구축 및 LLM 기반의 애플리케이션 개발에 초점이 맞춰지고 있습니다. 또한, 고성능 토크나이저와 다양한 사전 학습 모델들을 활용하여 실제 환경에서 구동 가능한 형태로 발전하고 있음을 알 수 있습니다.",
-      "summary_en": "The field is moving toward building complex, collaborative systems using multi-agent frameworks and dedicated platforms for deploying LLM agents. There is a strong focus on providing high-performance foundational tools, such as advanced tokenizers and comprehensive libraries for core NLP tasks like NER and POS tagging. Furthermore, the resources highlight an emphasis on specialized model availability, particularly for languages like Chinese, alongside general learning materials for deep learning and generative AI.",
+      "summary": "전통적인 텍스트 분석과 토큰화, 개체명 인식 등 기초 NLP 도구들이 여전히 활용되고 있습니다. 동시에 LLM 기반의 에이전트 구축 및 다중 에이전트 협력 시스템, 생성 AI 학습으로 관심사가 확장되는 흐름을 보입니다.",
+      "summary_en": "The field is evolving from foundational tools for tokenization, part-of-speech tagging, and named entity recognition toward the development of large language models and generative AI. There is a growing focus on building and deploying LLM-based agents and multi-agent systems that enable collaborative frameworks.",
       "keywords": [
         "natural-language-processing",
         "large-language-models",
@@ -163,8 +163,8 @@
     },
     "Framework": {
       "count": 180,
-      "summary": "딥러닝 프레임워크들이 지속적으로 발전하며 다양한 모델 구현을 지원하고 있으며, 학습 과정의 효율성 증대와 다중 GPU 활용에 초점이 맞춰지고 있다. 또한, 개발된 모델을 실제 애플리케이션으로 쉽게 배포하고 시각화하는 도구들의 중요성이 커지고 있다. 이와 더불어, 모델의 동작 원리를 설명하거나 특정 도메인(음성 등)에 특화된 응용 분야로 확장되는 경향이 두드러진다.",
-      "summary_en": "The framework area is consolidating around comprehensive deep learning capabilities, evidenced by specialized tools for model implementation and training across various hardware setups. There is a clear movement towards making complex AI models accessible through user-friendly application building and visualization utilities. Furthermore, the ecosystem supports advanced research integration and explainability techniques for machine learning outputs.",
+      "summary": "머신러닝과 딥러닝 모델의 구현 및 학습을 위한 범용 프레임워크와 라이브러리가 중심을 이루고 있습니다. 이와 더불어 모델의 시각화, 결과 설명, 애플리케이션 구축 및 얼굴 교체나 음원 분리와 같은 특정 기능 구현으로 활용 범위가 확장되는 추세입니다.",
+      "summary_en": "The framework area is heavily focused on machine learning and deep learning, spanning from core model implementation and scalable training to specialized applications like face swapping and audio separation. There is a clear emphasis on enhancing the ecosystem through tools for model visualization, explainability, and the rapid creation of machine learning applications.",
       "keywords": [
         "data-science",
         "tensorflow",
@@ -183,8 +183,8 @@
     },
     "Audio-Speech": {
       "count": 177,
-      "summary": "적은 데이터로 고품질의 음성을 생성하거나, 다양한 환경에서 오프라인으로 동작하는 음성 처리 기능 구현에 초점이 맞춰지고 있다. 또한, 단순한 인식이나 합성 기능을 넘어 다국어 번역, 화자 분리 등 복합적인 언어 이해 및 변환 작업으로 영역이 확장되고 있다.",
-      "summary_en": "The field is trending towards highly capable, versatile models that support text-to-speech synthesis and speech recognition across multiple languages. A significant emerging theme is the focus on deploying these advanced audio capabilities in offline or local environments for enhanced privacy and accessibility. Furthermore, there is a clear direction toward integrating speech processing with other modalities, such as video translation and diarization.",
+      "summary": "음성 인식, 합성, 번역을 아우르는 통합 프레임워크와 툴킷의 개발이 활발하며, 적은 데이터로도 가능한 효율적인 음성 생성 기술이 부상하고 있습니다. 특히 오프라인 환경 지원, 로컬 작동, 개인정보 보호를 강조하며 다양한 플랫폼에서 구동 가능한 최적화된 구현체들이 늘어나는 추세입니다.",
+      "summary_en": "The field is focusing on advancing text-to-speech synthesis and speech recognition, with a particular emphasis on multilingual capabilities and high-efficiency model implementations. There is a strong trend toward offline functionality and local execution to ensure privacy and cross-platform accessibility. Additionally, integrated workflows are emerging that combine speech processing with translation, dubbing, and automated transcription.",
       "keywords": [
         "text-to-speech",
         "speech-recognition",
@@ -203,8 +203,8 @@
     },
     "Browser": {
       "count": 175,
-      "summary": "웹 데이터 추출 및 상호작용 과정에 AI 에이전트의 역할이 핵심적으로 부상하고 있으며, 이를 위해 자동화된 브라우징 환경과 웹사이트 구조 이해가 중요해지고 있다. 전반적으로 단순 크롤링을 넘어, 웹에서 데이터를 검색하고 복제하며 복잡한 작업을 수행하는 수준으로 활용 범위가 확장되고 있다.",
-      "summary_en": "The area is heavily trending toward integrating Artificial Intelligence for advanced web interaction, moving beyond simple scraping to automated agent capabilities. Key themes include building robust tools for data extraction and website automation using headless browsers. Furthermore, there is a focus on sophisticated techniques like bypassing bot detection and converting entire websites into usable command-line interfaces.",
+      "summary": "전통적인 웹 크롤링과 스크래핑 기술을 넘어, AI 에이전트가 직접 웹사이트에서 작업을 자동화하고 데이터를 추출하는 방향으로 진화하고 있습니다. 특히 AI 및 자동화에 최적화된 헤드리스 브라우저와 봇 탐지를 우회하는 스텔스 기술, 그리고 웹사이트를 CLI나 템플릿으로 변환하는 AI 기반 도구들이 부상하고 있습니다.",
+      "summary_en": "The browser area is shifting toward AI-driven automation, with a strong focus on AI agents that can interact with websites, automate workflows, and convert web interfaces into command-line tools. There is a significant emphasis on advanced data extraction through AI-powered crawlers and the development of specialized headless browsers designed for automation and bypassing bot detection.",
       "keywords": [
         "web-scraping",
         "browser-automation",
@@ -223,8 +223,8 @@
     },
     "Fine-tuning": {
       "count": 153,
-      "summary": "다양한 모델에 대한 효율적인 파인튜닝 기법 제공과 함께, 로컬 환경이나 단일 저용량 GPU에서도 대규모 언어 모델을 학습 및 구동하는 접근 방식이 강화되고 있다. 또한, 개발자가 코딩 없이도 맞춤형 LLM을 구축하거나 다양한 오픈소스 모델을 API 형태로 쉽게 배포할 수 있는 통합 프레임워크들이 주목받고 있다.",
-      "summary_en": "The area is trending towards providing comprehensive, accessible frameworks for fine-tuning diverse open-source LLMs across various hardware constraints. Key themes include enabling local and cloud deployment via standardized APIs and offering parameter-efficient techniques to reduce computational overhead. Furthermore, there is a focus on simplifying the entire lifecycle, from training with specialized tools to building multi-step agents.",
+      "summary": "다양한 오픈소스 대규모 언어 모델을 효율적으로 미세 조정하고 평가하며, 이를 빠르게 배포하고 구동하기 위한 프레임워크와 도구들이 중심이 되고 있습니다. 특히 파라미터 효율적인 튜닝 기법과 저용량 GPU 활용, 저코드 프레임워크를 통해 학습 및 실행의 진입장벽을 낮추는 방향으로 발전하고 있습니다. 더불어 다단계 에이전트 훈련과 같은 특정 작업 최적화 및 클라우드 기반의 API 구동 환경 구축이 함께 이루어지고 있습니다.",
+      "summary_en": "The area is moving toward frameworks that enable the efficient fine-tuning, evaluation, and deployment of various open-source large language models and multimodal models. There is a strong emphasis on parameter-efficient fine-tuning (PEFT), low-code interfaces, and optimizing resource usage to allow training and inference on local or low-capacity GPUs. Additionally, trends include the integration of cloud-based deployment, OpenAI-compatible APIs, and the training of multi-step agents.",
       "keywords": [
         "lora",
         "fine-tuning",
@@ -243,8 +243,8 @@
     },
     "MLOps": {
       "count": 147,
-      "summary": "MLOps는 모델 서빙 및 학습 효율성을 높이는 고성능 추론 엔진과 최적화 라이브러리 개발에 집중하고 있습니다. 또한, 워크플로우 오케스트레이션은 쿠버네티스 기반의 전문 플랫폼으로 진화하며 데이터 품질 검증(데이터 기대치)을 통합하는 방향으로 발전하고 있습니다.",
-      "summary_en": "The field is heavily focused on optimizing the deployment and execution of large models, evidenced by high-performance inference engines and specialized compilation frameworks. Orchestration is maturing with tools designed for robust workflow management across various environments, including Kubernetes. Furthermore, there is a strong emphasis on improving data reliability through explicit quality validation and comprehensive lifecycle management practices.",
+      "summary": "대규모 언어 모델(LLM)의 효율적인 추론, 서빙 및 실제 적용을 위한 최적화 기술이 강조되고 있습니다. 동시에 워크플로우 오케스트레이션, 데이터 품질 검증, 분산 학습 및 컴파일러를 통한 모델의 고성능 배포와 운영 관리 체계가 구축되는 흐름을 보입니다.",
+      "summary_en": "The area is focusing on optimizing the performance of large language model inference and serving through high-performance engines and distributed deep learning libraries. There is a strong emphasis on operational stability via workflow orchestration, data quality validation, and comprehensive production management for deployment and monitoring. Additionally, the trend includes the use of open compilers and SDKs to enhance hardware-specific execution and efficiency.",
       "keywords": [
         "mlops",
         "gpu",
@@ -263,8 +263,8 @@
     },
     "RL": {
       "count": 145,
-      "summary": "강화학습 분야는 범용적인 컴퓨팅 엔진과 표준화된 환경 제공에 중점을 두면서도, 금융 시장 분석이나 실제 물리적 제어를 위한 특화된 응용 영역으로 확장하고 있습니다. 또한, LLM 기반의 서비스 플랫폼 구축 및 고성능 모델 서빙 기술이 주요한 개발 흐름을 형성하고 있습니다.",
-      "summary_en": "The field is focusing on providing robust, standardized environments and scalable infrastructure for RL applications, evident through dedicated APIs for single-agent tasks and distributed computing engines. A significant emerging theme involves the application of these techniques to specialized domains like finance, alongside advancements in generative modeling using diffusion transformers. Furthermore, there is a clear trend towards developing comprehensive platforms that manage model training, deployment, and complex simulation scenarios.",
+      "summary": "강화 학습은 표준 API와 물리 기반 시뮬레이션, 게임 연구 환경을 통해 기초 체계를 다지는 동시에, 분산 컴퓨팅과 확장성 높은 프레임워크를 통해 학습 효율을 높이는 방향으로 발전하고 있습니다. 특히 LLM과 결합하여 금융 특화 모델 및 트레이딩 전략과 같은 실무적 응용 분야로 확장되고 있으며, 모델 학습 관리와 서빙 플랫폼을 통한 운영 최적화가 함께 이루어지고 있습니다.",
+      "summary_en": "The area is focusing on the development of standardized APIs, physics-based simulations, and scalable frameworks for agent-based reinforcement learning. There is a significant trend toward integrating these techniques with large language models and deep learning for specialized applications in finance and trading. Additionally, the ecosystem is emphasizing distributed computing engines and serving platforms to enhance the efficiency and scalability of AI workloads.",
       "keywords": [
         "reinforcement-learning",
         "deep-reinforcement-learning",
@@ -283,8 +283,8 @@
     },
     "Multimodal": {
       "count": 129,
-      "summary": "멀티모달 분야는 다양한 데이터 유형(텍스트, 비전, 오디오 등)을 통합적으로 다루는 모델 정의 및 추론 프레임워크가 핵심 기반으로 자리 잡고 있습니다. 또한, 이러한 복합 모델들을 실제 환경에 효율적으로 배포하고 구동하기 위한 고성능 서빙 및 경량화된 온디바이스 최적화 기술이 중요하게 부상하고 있습니다.",
-      "summary_en": "The field is moving towards comprehensive frameworks and platforms that support the definition, training, and efficient serving of diverse multimodal models across various modalities like text, vision, and audio. Key themes include optimizing model deployment for specific hardware (e.g., NPU/GPU) and providing streamlined tooling for data labeling and application building. Furthermore, there is a focus on enabling smaller-scale or more resource-efficient training methods alongside high-performance inference engines.",
+      "summary": "텍스트, 비전, 오디오 등 다양한 모달리티를 통합하여 학습하고 추론하는 프레임워크와 플랫폼이 구축되고 있습니다. 특히 모델의 효율적인 서빙과 배포, 특정 하드웨어 최적화 및 소규모 모델 학습을 통해 실질적인 구동 환경을 구현하는 방향으로 확장되고 있습니다. 또한 데이터 라벨링, 시각화, 이상 탐지 등 모델 개발과 운영을 지원하는 도구들이 함께 활용되고 있습니다.",
+      "summary_en": "The field is moving toward the integration of diverse modalities, including text, vision, and audio, with a strong focus on high-performance serving, efficient inference, and specialized training frameworks. There is a clear emphasis on optimizing these multimodal models for deployment across various hardware, such as NPU, GPU, and Apple Silicon, while streamlining the data labeling and model distribution process.",
       "keywords": [
         "multimodal",
         "vision-language-model",
@@ -303,8 +303,8 @@
     },
     "Prompt": {
       "count": 67,
-      "summary": "프롬프트 엔지니어링은 단순한 텍스트 입력 단계를 넘어, 구조화된 프레임워크와 워크플로우를 통해 복잡한 애플리케이션 개발 과정으로 진화하고 있다. 특히, 모델의 출력을 체계적으로 제어하거나(구조화), 여러 AI 요소를 협업시키는 자동화된 시스템 구축에 초점이 맞춰지고 있다. 또한, 기존의 지식과 패턴을 활용하여 프롬프트를 관리하고 생산성을 높이는 도구들이 주목받고 있다.",
-      "summary_en": "The area is moving toward building structured, multi-step applications that manage and orchestrate complex interactions between different LLMs. There is a strong focus on advanced prompt engineering techniques, including creating reusable frameworks for system prompts and managing diverse use cases. Emerging themes also involve automating the creation of prompts from existing codebases and providing tools to refine or verify AI outputs.",
+      "summary": "단순한 프롬프트 작성을 넘어 구조화된 설계 프레임워크와 출력 제어, 그리고 전체 개발 공정을 관리하는 워크플로우 자동화로 발전하고 있습니다. 또한 코드 변환, 토큰 최적화, AI 작성 패턴 수정 등 특정 목적에 맞춘 전문적인 도구와 효율적인 관리 체계가 구축되는 추세입니다.",
+      "summary_en": "The field is shifting toward structured prompt engineering and the development of comprehensive frameworks to manage the entire LLM application lifecycle. There is a growing focus on automating workflows through multi-model collaboration, optimizing token efficiency, and ensuring structured output formats. Additionally, the ecosystem is expanding through curated prompt libraries, code-to-prompt conversion tools, and techniques to refine AI-generated content.",
       "keywords": [
         "prompt-engineering",
         "prompt",
@@ -323,8 +323,8 @@
     },
     "Security": {
       "count": 60,
-      "summary": "AI 모델의 취약점 검증 및 안전성 확보를 위한 도구 개발과 프롬프트 기반 공격 및 테스트에 대한 관심이 높아지고 있습니다. 또한, 민감 정보 보호와 다양한 AI 컴포넌트들을 통합하고 관리하는 게이트웨이 및 파이프라인 구축 기술이 중요하게 다루어지고 있습니다.",
-      "summary_en": "The focus is heavily on securing and testing the outputs and inputs of advanced AI systems, particularly LLMs. Key themes include developing specialized tools for vulnerability scanning, evaluating prompt performance, and managing complex data privacy requirements across different media types. Furthermore, there is a clear movement toward building structured frameworks and gateways to govern interactions between multiple AI models and agents.",
+      "summary": "LLM과 AI 에이전트의 취약점 스캔, 성능 테스트, 시스템 프롬프트 유출 분석 등 AI 모델의 보안성 평가와 검증 도구가 강화되고 있습니다. 동시에 민감 정보 비식별화, 엔터프라이즈 게이트웨이 구축, 다중 에이전트 기반의 자동화된 코드 감사와 같이 AI 시스템의 안정적인 운영과 데이터 보호를 위한 프레임워크 도입이 확대되는 추세입니다.",
+      "summary_en": "The security area is shifting toward the evaluation and testing of LLMs and AI agents, focusing on scanning for vulnerabilities and assessing performance. There is a strong emphasis on AI-driven automation for code auditing, the protection of sensitive data through anonymization, and the management of model context and prompt engineering. Additionally, the trend includes the systematic mapping of cybersecurity skills for AI agents and the monitoring of leaked system prompts.",
       "keywords": [
         "ai-safety",
         "llm-security",
@@ -343,8 +343,8 @@
     },
     "Eval": {
       "count": 34,
-      "summary": "LLM 애플리케이션과 에이전트 전반에 걸쳐 평가 및 관측 가능성(Observability) 확보가 핵심 흐름으로 나타나고 있습니다. 이를 위해 다양한 모델과 시스템을 체계적으로 테스트하고 추적할 수 있는 통합 플랫폼 구축에 초점이 맞춰지고 있습니다. 또한, 실시간 모니터링이나 특정 도메인(예: 시계열 예측)의 전문적인 벤치마킹 요구도 함께 증가하는 양상을 보입니다.",
-      "summary_en": "The evaluation area is heavily focused on providing comprehensive platforms and frameworks for assessing Large Language Model (LLM) applications, including tracking RAG systems and general model performance across various datasets. A significant emerging theme involves enhancing observability by integrating open telemetry standards to monitor LLM applications in real-time environments. Furthermore, there is a notable trend towards specialized tooling for testing components like prompts and monitoring system behavior within containerized infrastructure.",
+      "summary": "단순한 모델 성능 평가를 넘어 LLM 애플리케이션과 RAG 시스템, AI 에이전트에 대한 실시간 관측 가능성과 모니터링을 통합하는 추세입니다. 프롬프트의 시각적 검증과 다양한 데이터셋 기반의 벤치마킹 플랫폼이 제공되며, 시계열 데이터 분석 및 이상 탐지와 같은 특수 목적의 평가 도구들도 함께 활용되고 있습니다.",
+      "summary_en": "The area is shifting toward comprehensive observability and evaluation frameworks specifically for LLMs, RAG systems, and AI agents. There is a strong emphasis on monitoring, prompt validation, and the integration of open telemetry to ensure the performance and visibility of generative AI applications.",
       "keywords": [
         "llm-evaluation",
         "evaluation",
@@ -363,8 +363,8 @@
     },
     "Other": {
       "count": 24,
-      "summary": "AI 기술은 단순한 콘텐츠 생성을 넘어, 사용자 인터페이스나 전문적인 문서 작성 등 구체적이고 실용적인 결과물을 만들어내는 방향으로 발전하고 있다. 특히, 기존의 복잡한 시스템이나 아키텍처를 AI가 분석하거나 생성하는 자동화 및 검증 영역에서의 활용이 두드러진다. 또한, 다양한 미디어와 플랫폼(게임 에셋, 발표 자료 등)에 걸쳐 AI를 통합하여 전 과정을 지원하는 에이전트 기반의 구축 사례가 증가하고 있다.",
-      "summary_en": "The 'Other' area is showing a strong movement towards integrating generative AI capabilities into specialized, practical workflows across various domains. Emerging themes include the creation of sophisticated user interfaces and content generation tools for specific outputs like presentations, grant writing, and game assets. Furthermore, there is a notable focus on building robust, integrated applications using frameworks like LangChain within established cloud environments such as AWS and GCP.",
+      "summary": "생성형 AI를 활용하여 UI/UX 렌더링, 발표 자료 및 연구비 신청서 작성, 게임 아트 에셋 제작 등 다양한 실무 콘텐츠를 자동 생성하는 도구들이 나타나고 있습니다. 또한, AWS와 GCP 같은 클라우드 인프라 기반의 배포 및 분석 체계와 랭체인 기반의 에이전트 통합을 통해 AI의 적용 범위를 시스템 아키텍처와 홈 어시스턴트 영역까지 확장하는 추세입니다.",
+      "summary_en": "The area is shifting toward the integration of generative AI into specialized productivity workflows, including UI rendering, grant writing, presentation creation, and game art pipelines. There is a strong emphasis on deploying AI agents and infrastructure within cloud environments like AWS and GCP, alongside the development of generative search and recommendation models. Additionally, the trend includes the use of AI for real-time media transmission and the creation of interactive visual content.",
       "keywords": [
         "generative-ai",
         "tailwindcss",
@@ -383,8 +383,8 @@
     },
     "Learning": {
       "count": 16,
-      "summary": "학습 분야는 입문자부터 심화 학습까지 체계적인 자료를 제공하며, 실제 문제 해결 및 프로젝트 수행에 초점을 맞추고 있습니다. 특히 추천 시스템, 지리 공간 분석, 그리고 데이터셋의 불균형 처리와 같은 특정 응용 영역과 실전 대회 활용 사례가 중요한 흐름을 보입니다.",
-      "summary_en": "The learning area is trending towards practical, applied skills through curated resources for specific domains like data science, geospatial analysis, and embedded programming. There is a strong emphasis on hands-on experience, evident in project-based learning materials and solutions derived from competitive platforms. Furthermore, specialized topics such as recommender systems, handling class imbalance, and dataset distillation are becoming focused areas of study.",
+      "summary": "머신러닝과 딥러닝, 데이터 과학의 기초부터 실무 적용을 위한 프로젝트 기반 학습과 튜토리얼 제공이 활발합니다. 특히 추천 시스템, 지리 공간 분석, 데이터셋 증류 및 불균형 학습과 같은 특정 전문 분야의 심화 자료와 캐글 솔루션 같은 실전 문제 해결 중심의 학습 경향이 나타납니다. 주피터 노트북과 같은 도구 활용법을 포함하여 입문자와 전문가 모두를 위한 체계적인 학습 자원 구축이 이루어지고 있습니다.",
+      "summary_en": "The learning area is focused on providing structured educational paths, ranging from beginner-level machine learning courses to project-based tutorials and university-level deep learning notebooks. There is a strong emphasis on data science and specialized AI topics, including recommendation systems, dataset distillation, and imbalanced learning. Additionally, the trend includes curated resource lists for practical applications in embedded programming and geospatial analysis.",
       "keywords": [
         "awesome-list",
         "awesome",
@@ -403,8 +403,8 @@
     },
     "Dataset": {
       "count": 7,
-      "summary": "데이터셋 분야는 단순히 정적인 데이터 제공을 넘어, 훈련 효율성을 높이는 스트리밍 방식과 실제 환경에 근접한 합성 데이터 생성 기술로 진화하고 있다. 또한, 이미지나 표 같은 특정 형식의 데이터를 넘어서 그래프 구조나 복잡한 다변량 관계를 모델링하는 방향으로 초점이 확장되고 있다.",
-      "summary_en": "The area is moving toward providing ready-to-use, structured data resources for various modalities like images and general datasets. There is a strong focus on advanced data handling techniques, including synthetic data generation, efficient streaming for training, and specialized storage for complex data types such as graphs and schemas. Furthermore, the inclusion of tools for multivariate modeling suggests an emphasis on sophisticated data representation and preparation.",
+      "summary": "단순한 데이터셋 제공을 넘어 효율적인 스트리밍과 체계적인 저장소 관리를 통한 데이터 운용 최적화가 이루어지고 있습니다. 또한 합성 데이터 생성과 다변량 모델링을 통해 데이터의 가용성을 높이고, 그래프 기반의 특정 도메인 분석으로 활용 범위가 확장되는 추세입니다.",
+      "summary_en": "The area is focusing on providing diverse data collections for machine learning, including large-scale images and specialized fraud detection resources. There is a clear trend toward improving data infrastructure through efficient streaming, structured storage management, and the generation of synthetic tabular data.",
       "keywords": [
         "dataset",
         "data",
@@ -422,8 +422,8 @@
       ]
     }
   },
-  "overall": "AI 오픈소스 생태계는 단순한 모델 개발 단계를 넘어, 여러 기술 요소들을 통합하여 실제 작동 가능한 '에이전트'와 '워크플로우' 구축에 집중하고 있습니다. 특히, 에이전트는 RAG나 외부 도구 연동을 통해 복잡한 작업을 자동화하며, 이 과정 전반에 걸쳐 시스템의 안정성 검증(Eval)과 배포 용이성(MLOps, Framework) 확보가 핵심 과제로 부상하고 있습니다. 궁극적으로는 경량화된 모델들을 다양한 물리적/디지털 플랫폼에 통합하여 사용자 친화적인 실용 애플리케이션으로 구현하는 방향으로 진화하고 있습니다.",
-  "overall_en": "The overarching trend in AI open source is a shift from isolated model capabilities to integrated, autonomous systems. Development is heavily focused on building sophisticated agents capable of maintaining context and executing multi-step workflows across diverse platforms, including web browsing and physical robotics. Furthermore, the ecosystem emphasizes practical deployment through enhanced MLOps practices, robust evaluation frameworks, and the integration of complex data structures like knowledge graphs into core functionalities.",
+  "overall": "AI 오픈소스 생태계는 단순한 모델 개발을 넘어, LLM과 멀티모달 기술을 결합한 지능형 에이전트의 실질적인 구현과 워크플로우 자동화 중심으로 빠르게 진화하고 있습니다. 이를 위해 RAG의 고도화, 효율적인 미세 조정(Fine-tuning), MLOps 및 보안 체계 구축을 통해 모델의 실용성과 안정성을 높이는 최적화 작업이 병행되고 있습니다. 결과적으로 가상 시뮬레이션부터 웹 자동화, 전문 서비스 구현에 이르기까지 AI를 실제 산업 현장과 로컬 환경에 즉시 적용 가능한 서비스 형태로 구체화하는 방향으로 나아가고 있습니다.",
+  "overall_en": "The AI open-source ecosystem is shifting from basic model development toward the practical implementation of specialized, multi-agent systems and autonomous workflows across diverse domains, including robotics, coding, and web automation. There is a strong emphasis on operational efficiency, characterized by the development of lightweight fine-tuning techniques, optimized serving engines, and structured RAG systems that integrate multimodal data and knowledge graphs. Simultaneously, the ecosystem is maturing through the integration of robust MLOps, security scanning for LLM vulnerabilities, and comprehensive evaluation frameworks to ensure stability and observability. Overall, the trend is moving toward lowering entry barriers via low-code tools and local-first implementations while expanding AI's utility into real-world service applications and professional content generation.",
   "trending_topics": [
     "mcp",
     "ai-agents",
