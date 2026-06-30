@@ -2,6 +2,7 @@
 # AI Repo Radar 일일 자동 갱신 — 로컬 실행(gemma 요약 때문에 CI 불가).
 # 흐름: fetch(요약보존 merge) → summarize(신규 repo만) → trends → wrangler 배포 → ntfy 알림
 # 토큰: ~/.ai-repo-radar.env 에 GITHUB_TOKEN=ghp_xxx 저장(필수). CLOUDFLARE_API_TOKEN 있으면 무인배포 안정.
+# LLM: OpenRouter 31B 강제(자동화와 같은 모델 → 트렌드/요약 경향 일관). 키=~/.config/secrets.env
 set -uo pipefail
 
 ROOT="$HOME/ai-github-curation"
@@ -14,6 +15,10 @@ exec >>"$LOG" 2>&1
 echo "===== $(date '+%Y-%m-%d %H:%M:%S') 일일 갱신 시작 ====="
 
 [ -f "$ENVFILE" ] && source "$ENVFILE"
+# OpenRouter 31B 강제 + 키 로드(요약·트렌드 모델 일관성)
+[ -f "$HOME/.config/secrets.env" ] && source "$HOME/.config/secrets.env"
+export LLM_BACKEND=openrouter
+export OPENROUTER_MODEL="${OPENROUTER_MODEL:-google/gemma-4-31b-it:free}"
 if [ -z "${GITHUB_TOKEN:-}" ]; then
   echo "ERROR: GITHUB_TOKEN 없음 ($ENVFILE 확인)"
   curl -s -d "AI Repo Radar 갱신 실패: GITHUB_TOKEN 없음" "https://ntfy.sh/$NTFY_TOPIC" >/dev/null
