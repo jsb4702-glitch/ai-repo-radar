@@ -331,8 +331,14 @@ footer { color: var(--text-3); font-size: 13px; padding: 28px 22px 56px; text-al
 .fb-status { margin-top: 12px; text-align: center; font-size: 14px; color: var(--text-2); min-height: 18px; }
 
 @media (max-width: 560px) {
-  .hero { padding: 56px 0 36px; }
+  .hero { padding: 64px 0 36px; }
   .grid { grid-template-columns: 1fr; }
+  /* 모바일: 상단 버튼은 아이콘만(라벨 숨김) → 한 줄, 제목과 안 겹침 */
+  #kofi-label, #kakao-label, #fb-open-label { display: none; }
+  .fixed-tl { left: 12px; max-width: none; flex-wrap: nowrap; gap: 6px; }
+  .fixed-tr { right: 12px; gap: 6px; }
+  .fixed-tl .support { padding: 7px 10px; font-size: 15px; }
+  .lang-toggle { padding: 7px 11px; }
 }
 
 /* ---- Dark mode (흙색 warm tone, 토글 제어) ---- */
