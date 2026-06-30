@@ -331,14 +331,36 @@ footer { color: var(--text-3); font-size: 13px; padding: 28px 22px 56px; text-al
 .fb-status { margin-top: 12px; text-align: center; font-size: 14px; color: var(--text-2); min-height: 18px; }
 
 @media (max-width: 560px) {
-  .hero { padding: 64px 0 36px; }
-  .grid { grid-template-columns: 1fr; }
-  /* 모바일: 상단 버튼은 아이콘만(라벨 숨김) → 한 줄, 제목과 안 겹침 */
+  /* 상단 버튼: 아이콘만(라벨 숨김) → 한 줄, 제목과 안 겹침 */
   #kofi-label, #kakao-label, #fb-open-label { display: none; }
   .fixed-tl { left: 12px; max-width: none; flex-wrap: nowrap; gap: 6px; }
   .fixed-tr { right: 12px; gap: 6px; }
-  .fixed-tl .support { padding: 7px 10px; font-size: 15px; }
-  .lang-toggle { padding: 7px 11px; }
+  .fixed-tl .support { padding: 6px 9px; font-size: 15px; }
+  .lang-toggle, .icon-toggle { padding: 6px 9px; }
+
+  /* 헤더 압축 — 결과 더 빨리 보이게 */
+  .hero { padding: 52px 0 18px; }
+  .hero h1 { font-size: 32px; }
+  .tagline { font-size: 14px; margin-top: 8px; max-width: 90%; }
+  .meta { margin-top: 10px; font-size: 12px; }
+  .controls { padding: 10px 14px; margin-bottom: 16px; }
+  #search { padding: 10px 14px; font-size: 15px; margin-bottom: 10px; }
+
+  /* 카테고리 탭: 8줄 → 가로 스크롤 한 줄(스와이프) */
+  .tabs { flex-wrap: nowrap; overflow-x: auto; margin: 10px 0 2px; padding-bottom: 4px;
+          scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: 0 0 auto; padding: 6px 13px; }
+  .sortrow { margin-top: 10px; gap: 16px; font-size: 13px; }
+
+  /* 트렌드 배너 압축 — 요약 3줄로 자르고 키워드 숨김 */
+  .trend { padding: 14px; margin-bottom: 16px; }
+  .trend-summary { font-size: 13.5px; line-height: 1.5;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .trend-keywords { display: none; }
+
+  .grid { grid-template-columns: 1fr; gap: 14px; }
+  .card { padding: 18px; }
 }
 
 /* ---- Dark mode (흙색 warm tone, 토글 제어) ---- */
