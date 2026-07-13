@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-12T07:40:28.794442+00:00",
+  "generated_at": "2026-07-13T08:43:37.254418+00:00",
   "categories": {
     "MCP": {
-      "count": 691,
+      "count": 690,
       "summary": null,
       "summary_en": null,
       "keywords": [
@@ -22,8 +22,8 @@
       ]
     },
     "Agent": {
-      "count": 602,
-      "summary": "단순한 모델 활용을 넘어 에이전트 개발을 위한 프레임워크와 워크플로우 구축 도구, 입문자용 학습 자료가 활발히 제공되고 있습니다. 특히 RAG 결합, 세션 맥락 유지, 장시간 작업 지원 등 에이전트의 기능적 고도화와 로컬 환경 구축 및 실행 가능한 애플리케이션 구현으로 흐름이 확장되고 있습니다.",
+      "count": 604,
+      "summary": null,
       "summary_en": null,
       "keywords": [
         "ai-agents",
@@ -42,7 +42,7 @@
       ]
     },
     "Vision": {
-      "count": 446,
+      "count": 447,
       "summary": null,
       "summary_en": null,
       "keywords": [
@@ -62,7 +62,7 @@
       ]
     },
     "Robotics": {
-      "count": 326,
+      "count": 325,
       "summary": null,
       "summary_en": null,
       "keywords": [
@@ -81,16 +81,36 @@
         "carla-simulator/carla"
       ]
     },
-    "Security": {
+    "Code-AI": {
       "count": 233,
+      "summary": null,
+      "summary_en": null,
+      "keywords": [
+        "code-generation",
+        "copilot",
+        "claude-code",
+        "developer-tools",
+        "cursor",
+        "claude"
+      ],
+      "top": [
+        "x1xhlol/system-prompts-and-models-of-ai-tools",
+        "github/spec-kit",
+        "nextlevelbuilder/ui-ux-pro-max-skill",
+        "rtk-ai/rtk",
+        "streamlit/streamlit"
+      ]
+    },
+    "Security": {
+      "count": 229,
       "summary": null,
       "summary_en": null,
       "keywords": [
         "ai-security",
         "security",
         "ai-agents",
-        "llm-security",
         "supply-chain-security",
+        "llm-security",
         "ai-safety"
       ],
       "top": [
@@ -101,28 +121,8 @@
         "mukul975/Anthropic-Cybersecurity-Skills"
       ]
     },
-    "Code-AI": {
-      "count": 231,
-      "summary": null,
-      "summary_en": null,
-      "keywords": [
-        "code-generation",
-        "copilot",
-        "claude-code",
-        "developer-tools",
-        "cursor",
-        "codex"
-      ],
-      "top": [
-        "x1xhlol/system-prompts-and-models-of-ai-tools",
-        "github/spec-kit",
-        "nextlevelbuilder/ui-ux-pro-max-skill",
-        "rtk-ai/rtk",
-        "streamlit/streamlit"
-      ]
-    },
     "RAG": {
-      "count": 210,
+      "count": 207,
       "summary": null,
       "summary_en": null,
       "keywords": [
@@ -142,7 +142,7 @@
       ]
     },
     "NLP": {
-      "count": 199,
+      "count": 202,
       "summary": null,
       "summary_en": null,
       "keywords": [
@@ -182,7 +182,7 @@
       ]
     },
     "LLM": {
-      "count": 188,
+      "count": 186,
       "summary": null,
       "summary_en": null,
       "keywords": [
@@ -202,7 +202,7 @@
       ]
     },
     "Browser": {
-      "count": 183,
+      "count": 184,
       "summary": null,
       "summary_en": null,
       "keywords": [
@@ -222,7 +222,7 @@
       ]
     },
     "Framework": {
-      "count": 180,
+      "count": 179,
       "summary": null,
       "summary_en": null,
       "keywords": [
@@ -231,7 +231,7 @@
         "neural-network",
         "neural-networks",
         "scikit-learn",
-        "time-series"
+        "deep-neural-networks"
       ],
       "top": [
         "tensorflow/tensorflow",
@@ -241,28 +241,8 @@
         "JuliaLang/julia"
       ]
     },
-    "Fine-tuning": {
-      "count": 151,
-      "summary": "다양한 오픈소스 대규모 언어 모델을 효율적으로 미세 조정하고 배포하기 위한 프레임워크와 도구들이 중심이 되고 있습니다. 특히 파라미터 효율적 튜닝(PEFT)과 저용량 GPU 활용, 저코드 인터페이스를 통해 학습 및 실행의 진입장벽을 낮추는 방향으로 나아가고 있습니다.",
-      "summary_en": null,
-      "keywords": [
-        "lora",
-        "fine-tuning",
-        "transformers",
-        "large-language-models",
-        "rlhf",
-        "llama"
-      ],
-      "top": [
-        "hiyouga/LlamaFactory",
-        "unslothai/unsloth",
-        "datawhalechina/self-llm",
-        "lyogavin/airllm",
-        "huggingface/peft"
-      ]
-    },
     "MLOps": {
-      "count": 149,
+      "count": 150,
       "summary": null,
       "summary_en": null,
       "keywords": [
@@ -281,6 +261,26 @@
         "liguodongiot/llm-action"
       ]
     },
+    "Fine-tuning": {
+      "count": 150,
+      "summary": null,
+      "summary_en": null,
+      "keywords": [
+        "lora",
+        "fine-tuning",
+        "transformers",
+        "large-language-models",
+        "rlhf",
+        "reinforcement-learning"
+      ],
+      "top": [
+        "hiyouga/LlamaFactory",
+        "unslothai/unsloth",
+        "datawhalechina/self-llm",
+        "lyogavin/airllm",
+        "huggingface/peft"
+      ]
+    },
     "RL": {
       "count": 142,
       "summary": null,
@@ -289,8 +289,8 @@
         "reinforcement-learning",
         "deep-reinforcement-learning",
         "rl",
-        "large-language-models",
         "gymnasium",
+        "large-language-models",
         "jax"
       ],
       "top": [
@@ -307,8 +307,8 @@
       "summary_en": null,
       "keywords": [
         "multimodal",
-        "vision-language-model",
         "vlm",
+        "vision-language-model",
         "large-language-models",
         "computer-vision",
         "object-detection"
@@ -322,13 +322,13 @@
       ]
     },
     "Prompt": {
-      "count": 71,
+      "count": 73,
       "summary": null,
       "summary_en": null,
       "keywords": [
         "prompt-engineering",
-        "claude",
         "claude-code",
+        "claude",
         "prompt",
         "generative-ai",
         "prompts"
@@ -382,14 +382,14 @@
       ]
     },
     "Learning": {
-      "count": 16,
+      "count": 17,
       "summary": null,
       "summary_en": null,
       "keywords": [
         "awesome-list",
         "awesome",
-        "data-science",
         "generative-ai",
+        "data-science",
         "jupyter-notebook",
         "tutorial"
       ],
@@ -423,7 +423,7 @@
     }
   },
   "overall": null,
-  "overall_en": "The AI open-source ecosystem is shifting toward the development of functional agent frameworks and workflows that support RAG integration, session context, and local application implementation. Simultaneously, there is a focus on lowering entry barriers for fine-tuning through parameter-efficient methods (PEFT), low-code interfaces, and optimization for low-capacity GPUs. Overall, the trend is moving toward enhancing the practical capabilities of agents and increasing the accessibility of model customization and deployment.",
+  "overall_en": null,
   "trending_topics": [
     "mcp",
     "ai-agents",
@@ -432,8 +432,8 @@
     "mcp-server",
     "claude",
     "robotics",
-    "generative-ai",
     "computer-vision",
+    "generative-ai",
     "prompt-engineering",
     "large-language-models",
     "reinforcement-learning"
@@ -441,23 +441,23 @@
   "fastest": [
     {
       "name": "DietrichGebert/ponytail",
-      "vel": 2697.2
+      "vel": 2634.8
     },
     {
       "name": "affaan-m/ECC",
-      "vel": 1306.8
+      "vel": 1301.5
     },
     {
       "name": "nexu-io/open-design",
-      "vel": 1032.2
+      "vel": 1022.0
     },
     {
       "name": "JuliusBrussee/caveman",
-      "vel": 900.6
+      "vel": 896.3
     },
     {
       "name": "Graphify-Labs/graphify",
-      "vel": 834.2
+      "vel": 836.0
     }
   ]
 }
