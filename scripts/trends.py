@@ -79,8 +79,17 @@ def main():
     for r in repos:
         cats.setdefault(r["category"], []).append(r)
 
+    # 직전 trends.json — LLM이 빈값을 뱉을 때(OR 쿼터소진·서킷브레이커 트립) 기존 요약 보존용.
+    # 이게 없으면 빈 요약이 그대로 덮여 /c/* 정적페이지 본문까지 통째로 비워진다.
+    try:
+        prev = json.load(open(OUT, encoding="utf-8"))
+    except Exception:
+        prev = {}
+    prev_cats = prev.get("categories", {})
+
     out = {"generated_at": d.get("generated_at"), "categories": {}}
     cat_lines = []
+    kept = 0
     # 카테고리는 repo 수 많은 순
     for cat, items in sorted(cats.items(), key=lambda x: -len(x[1])):
         items.sort(key=lambda x: (x["prod_score"], x["stars"]), reverse=True)
@@ -96,8 +105,13 @@ def main():
                 if tl not in STOP:
                     topic_count[tl] += 1
         keywords = [t for t, _ in topic_count.most_common(6)]
+        pc = prev_cats.get(cat, {})
         summary = gen(CAT_PROMPT.format(cat=cat, items=listing))
         summary_en = gen(CAT_PROMPT_EN.format(cat=cat, items=listing))
+        if not summary and pc.get("summary"):
+            summary, kept = pc["summary"], kept + 1
+        if not summary_en and pc.get("summary_en"):
+            summary_en = pc["summary_en"]
         out["categories"][cat] = {
             "count": len(items),
             "summary": summary,
@@ -109,8 +123,10 @@ def main():
         if summary:
             cat_lines.append(f"- {cat}: {summary}")
 
-    out["overall"] = gen(OVERALL_PROMPT.format(items="\n".join(cat_lines)))
-    out["overall_en"] = gen(OVERALL_PROMPT_EN.format(items="\n".join(cat_lines)))
+    out["overall"] = gen(OVERALL_PROMPT.format(items="\n".join(cat_lines))) or prev.get("overall", "")
+    out["overall_en"] = gen(OVERALL_PROMPT_EN.format(items="\n".join(cat_lines))) or prev.get("overall_en", "")
+    if kept:
+        print(f"\n⚠️ LLM 빈응답 {kept}개 카테고리 — 직전 요약 보존(덮어쓰기 방지)", flush=True)
     print(f"\n[전체] {out['overall']}")
     print(f"[overall_en] {out['overall_en']}")
 
