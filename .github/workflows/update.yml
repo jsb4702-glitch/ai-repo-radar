@@ -1,14 +1,20 @@
-name: Daily AI repo refresh (cloud)
+name: Daily AI repo refresh (cloud, 결정론 단계만)
 
-# 매일 22:00 UTC(=07:00 KST) 클라우드 전체 파이프라인 — 맥 무관.
-# 수집 → 분류 → 신규요약(OpenRouter) → 트렌드 → 커밋 → Cloudflare Pages 배포
+# 매일 22:00 UTC(=07:00 KST) — 맥이 꺼져 있어도 도는 안전망.
+# 수집 → 분류/점수 → 정적페이지·사이트맵 → 커밋 → Cloudflare Pages 배포
+#
+# ⚠️ LLM 단계(summarize/trends)는 의도적으로 뺐다 (2026-07-18).
+#   CI 러너엔 ollama 폴백이 없어 OpenRouter :free 스로틀에 걸리면 건당 ~3분씩
+#   소각한다 — 07-14~17 4연속 6h 잡 타임아웃(summarize 302분)으로 실측 확인.
+#   요약/트렌드는 gemma4 폴백을 가진 로컬 launchd(run_daily.sh)가 전담하고,
+#   CI는 결정론 작업(수집·점수·분류·프리렌더·배포)만 맡는 역할분담.
+#   → 신규 repo는 summary_ko가 빈 채로 배포될 수 있고(카드는 description으로
+#     폴백), 다음 로컬 런이 백필한다.
 #
 # 필요한 Secrets (repo Settings → Secrets and variables → Actions):
-#   OPENROUTER_API_KEY     — OpenRouter 무료 API 키
 #   CLOUDFLARE_API_TOKEN   — CF Pages:Edit 권한 토큰
 #   CLOUDFLARE_ACCOUNT_ID  — CF 계정 ID
-# 필요한 Variables:
-#   OPENROUTER_MODEL       — 무료 모델 ID (openrouter.ai/models, Price=Free 에서 선택)
+#   (OPENROUTER_API_KEY는 이 워크플로에선 더 이상 쓰지 않음)
 
 on:
   schedule:
@@ -21,6 +27,9 @@ permissions:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    # 백스톱 — 기본 6h를 다 태우고 cancelled 되는 사고 재발 방지.
+    # 결정론 단계만 도니 정상 완주는 ~10분이다.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -32,24 +41,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: cd scripts && python3 fetch_repos.py
 
-      - name: 2) Summarize new repos (OpenRouter, 일일 캡 100)
-        env:
-          LLM_BACKEND: openrouter
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
-        run: cd scripts && python3 summarize.py 100
-
-      - name: 3) Trends (OpenRouter)
-        env:
-          LLM_BACKEND: openrouter
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
-        run: cd scripts && python3 trends.py
-
-      - name: 4) Prerender category pages + sitemap (SEO 색인 URL 확장)
+      # summarize/trends 없음 — 로컬 launchd 전담(파일 상단 주석 참조).
+      # prerender는 리포에 커밋된 trends.json(로컬 생성분)을 그대로 읽어 쓴다.
+      - name: 2) Prerender category pages + sitemap (SEO 색인 URL 확장)
         run: cd scripts && python3 prerender.py
 
-      - name: 5) Commit refreshed data
+      - name: 3) Commit refreshed data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -58,7 +55,7 @@ jobs:
           git diff --staged --quiet || git commit -m "chore: daily cloud refresh"
           git push
 
-      - name: 6) Deploy to Cloudflare Pages
+      - name: 4) Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

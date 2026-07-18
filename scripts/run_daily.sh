@@ -61,8 +61,29 @@ echo "[1/5] 수집(요약보존)..."; GITHUB_TOKEN="$GITHUB_TOKEN" python3 fetch
 echo "[2/5] 한글요약(신규만)...";  python3 summarize.py all || true   # 신규 null만 채움
 echo "[3/5] 트렌드...";          python3 trends.py || true
 # 카테고리 정적페이지 + sitemap. 실패 시 중단 — 스테일 페이지 배포 방지
-echo "[4/5] 정적페이지·사이트맵..."; python3 prerender.py || fail "prerender.py 실패"
-echo "[5/5] 배포...";            cd "$ROOT" || fail "ROOT 이동 실패"
+echo "[4/6] 정적페이지·사이트맵..."; python3 prerender.py || fail "prerender.py 실패"
+
+# git 반영 — 역할분담(2026-07-18) 전제조건.
+# CI는 결정론 단계만 돌면서 origin의 repos.json 위에 fetch merge 하므로,
+# 로컬이 요약/트렌드를 push하지 않으면 CI가 옛 요약을 받아 덮어쓴다(계보 분기).
+# 배포보다 우선순위 낮음 — 실패해도 사이트 갱신은 계속하고 다음 런에서 재시도.
+echo "[5/6] git 반영..."
+cd "$ROOT" || fail "ROOT 이동 실패"
+push_data() {
+  git add public/data/repos.json public/data/trends.json \
+          public/c public/sitemap.xml public/index.html || return 1
+  if git diff --staged --quiet; then echo "  변경없음 — 스킵"; return 0; fi
+  git -c user.name="ai-repo-radar (local)" \
+      -c user.email="jsb4702@gmail.com" \
+      commit -q -m "chore: daily local refresh (요약·트렌드 포함)" || return 1
+  # 다른 파일(scripts 등)이 dirty여도 리베이스 가능하도록 autostash
+  git pull --rebase --autostash -q origin main || return 1
+  git push -q origin main || return 1
+  echo "  push 완료: $(git rev-parse --short HEAD)"
+}
+push_data || echo "⚠️ git 반영 실패 — 배포는 계속, 다음 런에서 재시도"
+
+echo "[6/6] 배포..."
 npx --yes wrangler@4 pages deploy public --project-name ai-repo-radar --branch main --commit-dirty=true \
   || fail "wrangler 배포 실패"   # 배포 실패면 ✅ 금지 (거짓성공 방지)
 
