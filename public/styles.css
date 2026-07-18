@@ -183,6 +183,12 @@ a { color: inherit; }
 .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
 .card:active { transform: translateY(-1px) scale(.992); }
 .card.enter { animation: cardEnter .42s cubic-bezier(.2,.7,.2,1) both; }
+/* 정적 카테고리 페이지(/c/*)는 카드 전체가 <a> — 링크 기본 밑줄·색 상속 제거 */
+a.card, a.card:hover { text-decoration: none; color: inherit; }
+/* 카테고리 상호링크 나브. .controls 재사용 금지 — 그건 sticky+블러라 본문을 덮는다 */
+.catnav { margin: 38px 0 10px; padding-top: 24px; border-top: 1px solid var(--border-light); }
+.catnav > .meta { margin-bottom: 4px; }
+a.tab, a.tab:hover { text-decoration: none; display: inline-block; }
 @keyframes cardEnter {
   from { opacity: 0; transform: translateY(14px) scale(.98); }
   to   { opacity: 1; transform: translateY(0) scale(1); }

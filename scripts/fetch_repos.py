@@ -39,15 +39,25 @@ API = "https://api.github.com/search/repositories"
 
 
 # ---- HTTP -------------------------------------------------------------
-def gh_get(url):
+def gh_get(url, retries=4):
+    # launchd 07:00 wake 직후 네트워크 미준비(타임아웃/DNS/RST)로 일주일 연속 사망한 이력 →
+    # 일시 네트워크 오류는 백오프 재시도. HTTPError(4xx/5xx)는 기존대로 즉시 raise.
     req = urllib.request.Request(url)
     req.add_header("Accept", "application/vnd.github+json")
     req.add_header("User-Agent", "ai-github-curation")
     if TOKEN:
         req.add_header("Authorization", f"Bearer {TOKEN}")
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        remaining = resp.headers.get("X-RateLimit-Remaining")
-        return json.loads(resp.read().decode("utf-8")), remaining
+    for attempt in range(retries):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                remaining = resp.headers.get("X-RateLimit-Remaining")
+                return json.loads(resp.read().decode("utf-8")), remaining
+        except urllib.error.HTTPError:
+            raise
+        except (urllib.error.URLError, TimeoutError, OSError):
+            if attempt == retries - 1:
+                raise
+            time.sleep(10 * (attempt + 1))
 
 
 def search_topic(topic, since_iso):

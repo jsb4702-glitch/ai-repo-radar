@@ -87,13 +87,47 @@ def _openrouter(prompt, max_tokens, temperature):
     return ""
 
 
+FALLBACK_OLLAMA = os.environ.get("LLM_FALLBACK_OLLAMA") == "1"
+
+# OpenRouter 서킷브레이커 — OR은 메인이되 서브/보험 체계상 죽어있을 수 있음.
+# 연속 N회 실패(빈응답/예외)하면 이 프로세스(=이번 런)에서는 OR 스킵하고 폴백 직행.
+# 건당 429 백오프 ~80s를 죽은 키에 반복 소각하는 것 방지(CI 6h 타임아웃 사망 원인).
+# 프로세스 단위 상태라 다음 런은 OR부터 재시도 → OR 회복 시 자동 복귀.
+OR_BREAK_AFTER = int(os.environ.get("OPENROUTER_BREAK_AFTER", "3"))
+_or_fails = 0
+_or_tripped = False
+
+
 def complete(prompt, max_tokens=120, temperature=0.2):
     """프롬프트 → 응답 텍스트(raw). 백엔드 자동 선택. 일시오류 시 ''.
-    설정오류(키/모델 미설정)는 raise — 조용히 묻혀 엉뚱한 결과 나는 것 방지."""
-    fn = _openrouter if BACKEND == "openrouter" else _ollama
-    try:
-        return fn(prompt, max_tokens, temperature)
-    except RuntimeError:
-        raise
-    except Exception:
-        return ""
+    설정오류(키/모델 미설정)는 raise — 조용히 묻혀 엉뚱한 결과 나는 것 방지.
+    LLM_FALLBACK_OLLAMA=1 (로컬 전용): openrouter가 429 소진/빈응답이면 로컬 ollama로
+    1회 폴백 — :free 일일캡에 막혀 빈 요약이 수백 건 쌓이는 것 방지. CI에선 미설정(ollama 없음).
+    """
+    global _or_fails, _or_tripped
+    use_or = BACKEND == "openrouter" and not _or_tripped
+    out = ""
+    if use_or or BACKEND != "openrouter":
+        fn = _openrouter if use_or else _ollama
+        try:
+            out = fn(prompt, max_tokens, temperature)
+        except RuntimeError:
+            raise
+        except Exception:
+            out = ""
+        if use_or:
+            if out:
+                _or_fails = 0
+            else:
+                _or_fails += 1
+                if _or_fails >= OR_BREAK_AFTER:
+                    _or_tripped = True
+                    print(f"⚠️ OpenRouter 연속 {OR_BREAK_AFTER}회 실패 → 이번 런 OR 스킵"
+                          + (" (로컬 폴백 직행)" if FALLBACK_OLLAMA else " (폴백 미설정: 빈값 반환)"),
+                          flush=True)
+    if not out and FALLBACK_OLLAMA and BACKEND == "openrouter":
+        try:
+            out = _ollama(prompt, max_tokens, temperature)
+        except Exception:
+            out = ""
+    return out

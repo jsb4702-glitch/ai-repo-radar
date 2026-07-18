@@ -121,9 +121,14 @@ CATEGORIES = [
         "model-deployment", "inference", "ml-pipeline", "feature-store",
         "model-monitoring", "llmops", "llm-serving", "quantization",
         "inference-engine", "gpu", "distributed-training",
+        # 하네스 패리티: LLM 게이트웨이·라우터·옵저버빌리티·KV캐시 (harness-radar router·cost 신호)
+        "llm-gateway", "ai-gateway", "llm-router", "semantic-router",
+        "llm-observability", "kv-cache", "prompt-caching",
     }, {
         "model serving", "model deployment", "inference server", "ml pipeline",
         "experiment tracking", "feature store", "quantization", "llm serving",
+        "llm gateway", "ai gateway", "llm router", "semantic router",
+        "llm observability", "kv cache",
     }),
     ("Dataset", {
         "dataset", "datasets", "data-annotation", "synthetic-data",
@@ -199,4 +204,7 @@ SEED_TOPICS = [
     # AI 보안 시드 — 신규 보안 repo 수집용
     "ai-security", "llm-security", "prompt-injection", "ai-red-teaming",
     "adversarial-machine-learning", "supply-chain-security", "mcp-security", "ai-safety",
+    # 하네스 니치 시드 — 검증코어(할루신·가드레일·옵저버빌리티)·라우팅·컨텍스트 관리 repo 수집용
+    "hallucination-detection", "guardrails", "llm-observability", "llm-gateway",
+    "semantic-router", "prompt-optimization", "structured-output", "agent-memory",
 ]
