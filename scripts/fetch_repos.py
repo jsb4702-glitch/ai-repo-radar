@@ -14,6 +14,7 @@ Week 1 수집 스크립트 — GitHub Search API로 AI repo를 긁어서
 - Search API 30 req/min 제한 → 호출 사이 SLEEP 으로 보수적 대기
 """
 
+import http.client
 import json
 import math
 import os
@@ -42,6 +43,13 @@ API = "https://api.github.com/search/repositories"
 def gh_get(url, retries=4):
     # launchd 07:00 wake 직후 네트워크 미준비(타임아웃/DNS/RST)로 일주일 연속 사망한 이력 →
     # 일시 네트워크 오류는 백오프 재시도. HTTPError(4xx/5xx)는 기존대로 즉시 raise.
+    #
+    # IncompleteRead/BadStatusLine(2026-07-19 추가): 응답 본문이 중간에 잘리는 절단은
+    # HTTPException 계열이라 URLError/OSError 그물을 빠져나가 재시도 0회로 즉사했다
+    # (누적 4,124개 수집분을 topic 하나 절단으로 통째 폐기). 전송이 깨진 일시장애라 재시도가 맞다.
+    # HTTPException을 통째로 잡지 않는 이유: InvalidURL/UnknownProtocol/CannotSendRequest 등
+    # 결정론적 오류까지 4회 재시도로 삼켜 진짜 원인을 가린다. RemoteDisconnected는
+    # OSError 다중상속이라 이미 아래 튜플에 걸린다.
     req = urllib.request.Request(url)
     req.add_header("Accept", "application/vnd.github+json")
     req.add_header("User-Agent", "ai-github-curation")
@@ -54,7 +62,8 @@ def gh_get(url, retries=4):
                 return json.loads(resp.read().decode("utf-8")), remaining
         except urllib.error.HTTPError:
             raise
-        except (urllib.error.URLError, TimeoutError, OSError):
+        except (urllib.error.URLError, TimeoutError, OSError,
+                http.client.IncompleteRead, http.client.BadStatusLine):
             if attempt == retries - 1:
                 raise
             time.sleep(10 * (attempt + 1))
