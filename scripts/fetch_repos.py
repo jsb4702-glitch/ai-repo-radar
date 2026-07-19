@@ -34,6 +34,7 @@ MIN_STARS = 50            # 노이즈 컷
 PER_PAGE = 100            # Search 최대
 MAX_PAGES = 3            # topic당 최대 페이지 (3 = 최대 300개)
 SLEEP_SEC = 2.5           # Search 호출 간 대기 (30/min 안전마진)
+MIN_RETAIN_RATIO = 0.5    # 수집 결과가 기존 대비 이 비율 미만이면 붕괴로 보고 저장 거부
 OUT_PATH = os.path.join(os.path.dirname(__file__), "..", "public", "data", "repos.json")
 
 API = "https://api.github.com/search/repositories"
@@ -60,8 +61,13 @@ def gh_get(url, retries=4):
             with urllib.request.urlopen(req, timeout=30) as resp:
                 remaining = resp.headers.get("X-RateLimit-Remaining")
                 return json.loads(resp.read().decode("utf-8")), remaining
-        except urllib.error.HTTPError:
-            raise
+        except urllib.error.HTTPError as e:
+            # 5xx(2026-07-17 추가): GitHub 일시장애는 재시도. 그날 503이 topic 40여개를
+            # 연속으로 skip시켜 repos.json이 4,578→701개로 붕괴했다.
+            # 4xx는 요청 자체 문제고 403(rate limit)은 search_topic이 60초 대기로 처리 → 즉시 raise.
+            if e.code < 500 or attempt == retries - 1:
+                raise
+            time.sleep(10 * (attempt + 1))
         except (urllib.error.URLError, TimeoutError, OSError,
                 http.client.IncompleteRead, http.client.BadStatusLine):
             if attempt == retries - 1:
@@ -197,9 +203,11 @@ def main():
     # ── 기존 요약 보존(merge) ── fetch는 통째 덮어쓰므로, 이미 만든 한글요약을
     # 같은 repo에 그대로 이어붙인다. 새 repo만 summary_ko=None → 다음 summarize가 채움.
     carried = 0
+    old_count = 0
     if os.path.exists(OUT_PATH):
         try:
             old = json.load(open(OUT_PATH, encoding="utf-8"))
+            old_count = len(old.get("repos", []))
             old_sum = {r["name"]: (r.get("summary_ko"), r.get("summary_en"))
                        for r in old.get("repos", [])}
             for fn, rec in seen.items():
@@ -218,6 +226,18 @@ def main():
         dist[r["category"]] = dist.get(r["category"], 0) + 1
     print("\n카테고리 분포:", dict(sorted(dist.items(), key=lambda x: -x[1])))
     print(f"총 {len(repos)}개 / Other(미분류) {dist.get('Other', 0)}개 ← LLM 분류 대상")
+
+    # ── 붕괴 방어 ── 수집이 조용히 실패해도 스크립트는 "성공"으로 끝나 repos.json을
+    # 통째로 덮어쓴다. 2026-07-17이 그랬다: 503 연속 skip으로 701개(기존의 15%)만 모았는데
+    # ntfy는 "✅ 완료: 701개"를 보냈고, 요약 3,894개가 날아가 다음날 재생성해야 했다.
+    # 평시 일변동은 ±3% 이내 → 절반 아래면 수집 실패로 보고 기존 파일을 지킨다.
+    # 의도적 축소(MIN_STARS 상향, topic 정리 등)는 ALLOW_SHRINK=1 로 통과.
+    if old_count and len(repos) < old_count * MIN_RETAIN_RATIO and not os.environ.get("ALLOW_SHRINK"):
+        print(f"\n❌ 수집 붕괴 감지: 기존 {old_count}개 → 신규 {len(repos)}개 "
+              f"({len(repos) / old_count:.0%}, 하한 {MIN_RETAIN_RATIO:.0%}). "
+              f"기존 repos.json 보존하고 종료. 의도된 축소면 ALLOW_SHRINK=1 로 재실행.",
+              file=sys.stderr)
+        sys.exit(1)
 
     out = {
         "generated_at": datetime.now(timezone.utc).isoformat(),

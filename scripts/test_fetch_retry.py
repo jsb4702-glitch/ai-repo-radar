@@ -98,14 +98,32 @@ class GhGetRetryTest(unittest.TestCase):
             fetch_repos.gh_get("https://example.invalid/x")
         self.assertEqual(se.calls, 2)
 
-    def test_http_error_raises_immediately(self):
-        """403/5xx는 search_topic이 직접 처리한다 — gh_get에서 재시도하면 안 됨."""
+    def test_http_4xx_raises_immediately(self):
+        """403(rate limit)은 search_topic이 60초 대기로 처리한다 — gh_get이 삼키면 안 됨."""
         err = urllib.error.HTTPError("u", 403, "rate limit", {}, None)
         se = urlopen_raising(*[err] * 10)
         with mock.patch.object(fetch_repos.urllib.request, "urlopen", side_effect=se):
             with self.assertRaises(urllib.error.HTTPError):
                 fetch_repos.gh_get("https://example.invalid/x")
-        self.assertEqual(se.calls, 1, "HTTPError는 재시도 없이 즉시 raise")
+        self.assertEqual(se.calls, 1, "4xx는 재시도 없이 즉시 raise")
+
+    # ---- 5xx 재시도 (2026-07-17 붕괴 대응) --------------------------------
+    def test_http_503_is_retried_then_succeeds(self):
+        err = urllib.error.HTTPError("u", 503, "unavailable", {}, None)
+        se = urlopen_raising(err, err)
+        with mock.patch.object(fetch_repos.urllib.request, "urlopen", side_effect=se):
+            data, _ = fetch_repos.gh_get("https://example.invalid/x")
+        self.assertEqual(se.calls, 3, "503은 일시장애 → 재시도해야 함")
+        self.assertIn("items", data)
+
+    def test_http_503_exhausts_retries_and_raises(self):
+        """계속 503이면 4회 쓰고 raise → search_topic이 skip 처리한다."""
+        err = urllib.error.HTTPError("u", 503, "unavailable", {}, None)
+        se = urlopen_raising(*[err] * 10)
+        with mock.patch.object(fetch_repos.urllib.request, "urlopen", side_effect=se):
+            with self.assertRaises(urllib.error.HTTPError):
+                fetch_repos.gh_get("https://example.invalid/x")
+        self.assertEqual(se.calls, 4)
 
     def test_deterministic_httpexception_not_retried(self):
         """InvalidURL 같은 결정론적 오류는 재시도로 삼키지 않는다 (원인 은폐 방지)."""
@@ -121,6 +139,73 @@ class GhGetRetryTest(unittest.TestCase):
             data, remaining = fetch_repos.gh_get("https://example.invalid/x")
         self.assertEqual(se.calls, 1)
         self.assertEqual(remaining, "42")
+
+
+def fake_repo(i):
+    return {
+        "full_name": f"owner/repo{i}", "html_url": f"https://x/{i}",
+        "description": "d", "stargazers_count": 100, "language": "Python",
+        "topics": ["llm"], "license": {"spdx_id": "MIT"},
+        "pushed_at": "2026-07-18T00:00:00Z", "created_at": "2025-01-01T00:00:00Z",
+        "archived": False, "open_issues_count": 0,
+    }
+
+
+class ShrinkGuardTest(unittest.TestCase):
+    """2026-07-17: 503 연속 skip으로 4,578→701개(15%)를 조용히 덮어써 요약이 날아갔다.
+    수집이 붕괴하면 저장을 거부하고 기존 파일을 지켜야 한다."""
+
+    def setUp(self):
+        import tempfile
+        self.tmp = tempfile.mkdtemp()
+        self.out = f"{self.tmp}/repos.json"
+        for p, v in [("OUT_PATH", self.out), ("SEED_TOPICS", ["llm"]), ("SLEEP_SEC", 0)]:
+            patcher = mock.patch.object(fetch_repos, p, v)
+            patcher.start()
+            self.addCleanup(patcher.stop)
+        patcher = mock.patch.object(fetch_repos.time, "sleep")
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        self.addCleanup(lambda: __import__("shutil").rmtree(self.tmp, ignore_errors=True))
+
+    def _seed(self, n):
+        """기존 repos.json 을 n개로 깔아둔다 (요약 포함)."""
+        import json as j
+        with open(self.out, "w", encoding="utf-8") as f:
+            j.dump({"count": n, "repos": [
+                {"name": f"owner/repo{i}", "summary_ko": "요약", "summary_en": "s"}
+                for i in range(n)]}, f)
+
+    def _run_with(self, n_collected, env=None):
+        with mock.patch.object(fetch_repos, "search_topic",
+                               return_value=[fake_repo(i) for i in range(n_collected)]), \
+             mock.patch.dict(fetch_repos.os.environ, env or {}, clear=False):
+            fetch_repos.main()
+
+    def _saved_count(self):
+        import json as j
+        return len(j.load(open(self.out, encoding="utf-8"))["repos"])
+
+    def test_collapse_refuses_to_save(self):
+        self._seed(100)
+        with self.assertRaises(SystemExit) as cm:
+            self._run_with(10)          # 10%  ← 07-17 시나리오
+        self.assertEqual(cm.exception.code, 1)
+        self.assertEqual(self._saved_count(), 100, "기존 파일이 덮어써지면 안 된다")
+
+    def test_normal_variation_saves(self):
+        self._seed(100)
+        self._run_with(90)              # 90% — 평시 변동은 ±3% 이내
+        self.assertEqual(self._saved_count(), 90)
+
+    def test_allow_shrink_overrides(self):
+        self._seed(100)
+        self._run_with(10, env={"ALLOW_SHRINK": "1"})
+        self.assertEqual(self._saved_count(), 10, "의도적 축소는 통과해야 한다")
+
+    def test_first_run_has_no_baseline(self):
+        self._run_with(5)               # 기존 파일 없음 → 붕괴 판정 대상 아님
+        self.assertEqual(self._saved_count(), 5)
 
 
 if __name__ == "__main__":
