@@ -1,14 +1,14 @@
 #!/bin/bash
 # AI Repo Radar 일일 자동 갱신 — 로컬 실행(gemma 요약 때문에 CI 불가).
 # 흐름: fetch(요약보존 merge) → summarize(신규 repo만) → trends → wrangler 배포 → ntfy 알림
-# 토큰: ~/.ai-repo-radar.env 에 GITHUB_TOKEN=ghp_xxx 저장(필수). CLOUDFLARE_API_TOKEN 있으면 무인배포 안정.
+# 토큰: ~/.ai-repo-radar.env 에 GITHUB_TOKEN=ghp_xxx 저장(필수). CLOUDFLARE_API_TOKEN 있으면 무인배포 안정. NTFY_TOPIC=알림토픽(없으면 알림만 스킵).
 # LLM: OpenRouter 31B 강제(자동화와 같은 모델 → 트렌드/요약 경향 일관). 키=~/.config/secrets.env
 set -uo pipefail
 
 ROOT="$HOME/ai-github-curation"
 SCRIPTS="$ROOT/scripts"
 LOG="$ROOT/daily.log"
-NTFY_TOPIC="harness-f1f6240ce583"   # 기존 ntfy 토픽 재사용
+NTFY_TOPIC=""   # 값은 ENVFILE의 NTFY_TOPIC= 로 로드 — 공개레포에 토픽 평문 금지(ntfy 토픽명=구독 자격증명)
 ENVFILE="$HOME/.ai-repo-radar.env"
 
 exec >>"$LOG" 2>&1
@@ -27,6 +27,7 @@ echo $$ > "$LOCKDIR/pid"
 trap 'rm -rf "$LOCKDIR"' EXIT
 
 [ -f "$ENVFILE" ] && source "$ENVFILE"
+[ -n "$NTFY_TOPIC" ] || echo "⚠️ NTFY_TOPIC 미설정($ENVFILE) — ntfy 알림 스킵"
 # OpenRouter 31B 강제 + 키 로드(요약·트렌드 모델 일관성)
 [ -f "$HOME/.config/secrets.env" ] && source "$HOME/.config/secrets.env"
 export LLM_BACKEND=openrouter
@@ -35,7 +36,7 @@ export LLM_FALLBACK_OLLAMA=1   # :free 캡 소진 시 로컬 gemma4 폴백 (llm.
 
 fail() {  # 실패 = ntfy 알림 + exit 1 (침묵실패 금지)
   echo "ERROR: $1"
-  curl -s -d "❌ AI Repo Radar 갱신 실패: $1" -H "Title: AI Repo Radar" "https://ntfy.sh/$NTFY_TOPIC" >/dev/null
+  [ -n "$NTFY_TOPIC" ] && curl -s -d "❌ AI Repo Radar 갱신 실패: $1" -H "Title: AI Repo Radar" "https://ntfy.sh/$NTFY_TOPIC" >/dev/null
   echo "===== $(date '+%H:%M:%S') 실패 종료 ====="
   exit 1
 }
@@ -89,6 +90,6 @@ npx --yes wrangler@4 pages deploy public --project-name ai-repo-radar --branch m
 
 COUNT=$(python3 -c "import json;print(json.load(open('$ROOT/public/data/repos.json'))['count'])" 2>/dev/null)
 echo "완료: ${COUNT}개"
-curl -s -d "✅ AI Repo Radar 갱신 완료: ${COUNT}개 repo (https://ai-repo-radar-1u7.pages.dev)" \
+[ -n "$NTFY_TOPIC" ] && curl -s -d "✅ AI Repo Radar 갱신 완료: ${COUNT}개 repo (https://ai-repo-radar-1u7.pages.dev)" \
      -H "Title: AI Repo Radar" "https://ntfy.sh/$NTFY_TOPIC" >/dev/null
 echo "===== $(date '+%H:%M:%S') 끝 ====="
