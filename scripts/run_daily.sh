@@ -82,7 +82,22 @@ push_data() {
   git push -q origin main || return 1
   echo "  push 완료: $(git rev-parse --short HEAD)"
 }
-push_data || echo "⚠️ git 반영 실패 — 배포는 계속, 다음 런에서 재시도"
+# 침묵실패 방지(2026-07-25): 리베이스 좌초로 push가 몇 주 조용히 죽었던 재발 방지 —
+# 연속 실패 카운터 유지, 2회 이상이면 ntfy 경보(성공 시 리셋).
+PUSH_FAIL_FILE="$ROOT/.push_fail_count"
+if push_data; then
+  rm -f "$PUSH_FAIL_FILE"
+else
+  PUSH_FAILS=$(cat "$PUSH_FAIL_FILE" 2>/dev/null)
+  case "$PUSH_FAILS" in (''|*[!0-9]*) PUSH_FAILS=0;; esac
+  PUSH_FAILS=$((PUSH_FAILS + 1))
+  echo "$PUSH_FAILS" > "$PUSH_FAIL_FILE"
+  echo "⚠️ git 반영 실패(연속 ${PUSH_FAILS}회) — 배포는 계속, 다음 런에서 재시도"
+  if [ "$PUSH_FAILS" -ge 2 ]; then
+    [ -n "$NTFY_TOPIC" ] && curl -s -d "⚠️ AI Repo Radar: git push 연속 ${PUSH_FAILS}회 실패 — 로컬 요약이 origin에 반영 안 되는 중(리베이스 좌초 의심). daily.log 확인" \
+         -H "Title: AI Repo Radar" "https://ntfy.sh/$NTFY_TOPIC" >/dev/null
+  fi
+fi
 
 echo "[6/6] 배포..."
 npx --yes wrangler@4 pages deploy public --project-name ai-repo-radar --branch main --commit-dirty=true \
