@@ -1,6 +1,10 @@
 name: Daily AI repo refresh (cloud, 결정론 단계만)
 
-# 매일 22:00 UTC(=07:00 KST) — 맥이 꺼져 있어도 도는 안전망.
+# 매일 00:00 UTC(=09:00 KST) — 맥이 꺼져 있어도 도는 안전망.
+# ⚠️ 로컬 launchd(07:00 KST, 보통 07:20~07:45 완료·push) 보다 뒤에 돌아야 한다(2026-09-02).
+#   같은 07:00 에 두면 CI 가 로컬 push 직전 상태를 checkout 해 요약 없는 판을 나중에 배포하고
+#   (같은 CF Pages 에 last-writer-wins) 라이브를 스테일로 덮는다. GitHub cron 은 늦어지기만
+#   하지 앞당겨지진 않으므로 2시간 뒤로 두면 로컬 push 를 항상 포함한다.
 # 수집 → 분류/점수 → 정적페이지·사이트맵 → 커밋 → Cloudflare Pages 배포
 #
 # ⚠️ LLM 단계(summarize/trends)는 의도적으로 뺐다 (2026-07-18).
@@ -18,7 +22,7 @@ name: Daily AI repo refresh (cloud, 결정론 단계만)
 
 on:
   schedule:
-    - cron: "0 22 * * *"
+    - cron: "0 0 * * *"
   workflow_dispatch: {}
 
 permissions:

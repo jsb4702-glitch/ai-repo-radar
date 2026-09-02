@@ -68,22 +68,13 @@ echo "[4/6] 정적페이지·사이트맵..."; python3 prerender.py || fail "pre
 # CI는 결정론 단계만 돌면서 origin의 repos.json 위에 fetch merge 하므로,
 # 로컬이 요약/트렌드를 push하지 않으면 CI가 옛 요약을 받아 덮어쓴다(계보 분기).
 # 배포보다 우선순위 낮음 — 실패해도 사이트 갱신은 계속하고 다음 런에서 재시도.
+# 방식(2026-09-02 교체): pull --rebase 금지. 생성물은 머지 대상이 아니라 origin/main 위에
+# 로컬 최신본을 통째로 얹는다(scripts/push_data.sh). 07-21·07-28 3-way rebase 충돌 좌초
+# → "already a rebase-merge directory" 33일 연속 실패 재발 방지. 회귀: scripts/test_push_data.sh
 echo "[5/6] git 반영..."
 cd "$ROOT" || fail "ROOT 이동 실패"
-push_data() {
-  git add public/data/repos.json public/data/trends.json \
-          public/c public/sitemap.xml public/index.html || return 1
-  if git diff --staged --quiet; then echo "  변경없음 — 스킵"; return 0; fi
-  git -c user.name="ai-repo-radar (local)" \
-      -c user.email="jsb4702@gmail.com" \
-      commit -q -m "chore: daily local refresh (요약·트렌드 포함)" || return 1
-  # 다른 파일(scripts 등)이 dirty여도 리베이스 가능하도록 autostash
-  git pull --rebase --autostash -q origin main || return 1
-  git push -q origin main || return 1
-  echo "  push 완료: $(git rev-parse --short HEAD)"
-}
-# 침묵실패 방지(2026-07-25): 리베이스 좌초로 push가 몇 주 조용히 죽었던 재발 방지 —
-# 연속 실패 카운터 유지, 2회 이상이면 ntfy 경보(성공 시 리셋).
+source "$SCRIPTS/push_data.sh" || fail "push_data.sh 로드 실패"
+# 침묵실패 방지(2026-07-25): 연속 실패 카운터 유지, 2회 이상이면 ntfy 경보(성공 시 리셋).
 PUSH_FAIL_FILE="$ROOT/.push_fail_count"
 if push_data; then
   rm -f "$PUSH_FAIL_FILE"
@@ -92,18 +83,21 @@ else
   case "$PUSH_FAILS" in (''|*[!0-9]*) PUSH_FAILS=0;; esac
   PUSH_FAILS=$((PUSH_FAILS + 1))
   echo "$PUSH_FAILS" > "$PUSH_FAIL_FILE"
-  echo "⚠️ git 반영 실패(연속 ${PUSH_FAILS}회) — 배포는 계속, 다음 런에서 재시도"
+  echo "⚠️ git 반영 실패(연속 ${PUSH_FAILS}회, 지점: ${PUSH_STAGE:-?}) — 배포는 계속, 다음 런에서 재시도"
   if [ "$PUSH_FAILS" -ge 2 ]; then
-    [ -n "$NTFY_TOPIC" ] && curl -s -d "⚠️ AI Repo Radar: git push 연속 ${PUSH_FAILS}회 실패 — 로컬 요약이 origin에 반영 안 되는 중(리베이스 좌초 의심). daily.log 확인" \
+    [ -n "$NTFY_TOPIC" ] && curl -s -d "⚠️ AI Repo Radar: git push 연속 ${PUSH_FAILS}회 실패(지점: ${PUSH_STAGE:-?}) — 로컬 요약이 origin에 반영 안 되는 중. daily.log 확인" \
          -H "Title: AI Repo Radar" "https://ntfy.sh/$NTFY_TOPIC" >/dev/null
   fi
 fi
+
+# 배포 전 데이터 sanity — 깨진 repos.json(07-28 충돌 마커 배포 사고)을 라이브에 올리지 않는다.
+COUNT=$(python3 -c "import json;print(json.load(open('$ROOT/public/data/repos.json'))['count'])" 2>/dev/null)
+case "$COUNT" in (''|*[!0-9]*|0) fail "repos.json 파싱 실패/빈 데이터(count='${COUNT}') — 배포 중단";; esac
 
 echo "[6/6] 배포..."
 npx --yes wrangler@4 pages deploy public --project-name ai-repo-radar --branch main --commit-dirty=true \
   || fail "wrangler 배포 실패"   # 배포 실패면 ✅ 금지 (거짓성공 방지)
 
-COUNT=$(python3 -c "import json;print(json.load(open('$ROOT/public/data/repos.json'))['count'])" 2>/dev/null)
 echo "완료: ${COUNT}개"
 [ -n "$NTFY_TOPIC" ] && curl -s -d "✅ AI Repo Radar 갱신 완료: ${COUNT}개 repo (https://ai-repo-radar-1u7.pages.dev)" \
      -H "Title: AI Repo Radar" "https://ntfy.sh/$NTFY_TOPIC" >/dev/null
